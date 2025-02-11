@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PDL.Authentication.Interfaces\PDL.Authentication.Interfaces.csproj" />
+    <ProjectReference Include="..\PDL.Authentication.Logics\PDL.Authentication.Logics.csproj" />
+  </ItemGroup>
+
+</Project>

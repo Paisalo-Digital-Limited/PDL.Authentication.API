@@ -1,0 +1,6 @@
+@PDL.Authentication.API_HostAddress = http://localhost:5078
+
+GET {{PDL.Authentication.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

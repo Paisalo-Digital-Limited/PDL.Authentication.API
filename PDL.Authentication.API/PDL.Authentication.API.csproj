@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PDL.Authentication.Interfaces\PDL.Authentication.Interfaces.csproj" />
+    <ProjectReference Include="..\PDL.Authentication.Logics\PDL.Authentication.Logics.csproj" />
+    <ProjectReference Include="..\PDL.Authentication.Repository\PDL.Authentication.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
