@@ -8,7 +8,7 @@ namespace PDL.Authentication.Entites.VM
 {
     public class AccountTokens
     {
-        public int Id { get; set; }
+        public Int64 Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }
@@ -17,5 +17,6 @@ namespace PDL.Authentication.Entites.VM
         public string? EmpCode { get; set; }
         public string? Token { get; set; }
         public TimeSpan? Validity { get; set; }
+        public ErrorMessageVM Error { get; set; }
     }
 }

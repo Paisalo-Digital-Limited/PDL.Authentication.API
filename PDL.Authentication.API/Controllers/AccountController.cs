@@ -10,7 +10,7 @@ namespace PDL.Authentication.API.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IAccountInterface _accountInterface;
-        private JwtSettings _jwtSettings;
+        private readonly JwtSettings _jwtSettings;
 
         public AccountController(IConfiguration configuration, IAccountInterface accountInterface, JwtSettings jwtSettings) : base(configuration)
         {
@@ -18,6 +18,7 @@ namespace PDL.Authentication.API.Controllers
             _accountInterface = accountInterface;
             _jwtSettings = jwtSettings;
         }
+
         #region --------- Generate Token By ----- Satish Maurya -------
         [HttpPost]
         public IActionResult GenerateToken(AccountLoginVM accountLogin)
@@ -27,50 +28,27 @@ namespace PDL.Authentication.API.Controllers
                 string dbname = GetDBName();
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    dynamic data = _accountInterface.LoginAccountValidate(accountLogin, dbname, GetIslive());
-                    dynamic validCredData = new ExpandoObject();
+                    AccountTokens data = _accountInterface.LoginAccountValidate(accountLogin, dbname, GetIslive());
 
-                    var Token = new AccountTokens();
                     if (data != null)
                     {
-                        validCredData.accountTokens = data;
-                        if (data.isValidate)
-                        {
-                            Token = JwtHelpers.GenTokenkey(new AccountTokens()
-                            {
-                                Id = data.Id,
-                                Name = data.Name,
-                                Email = data.Email,
-                                RoleId = data.RoleId,
-                                EmpCode = data.EmpCode,
-                                Creator = data.Creator,
-                                RoleName = data.RoleName,
-
-                            }, _jwtSettings);
-                            validCredData.accountTokens = data.accountTokens;
-                            validCredData.tokenDetails = Token;
-                            string successMessage = resourceManager.GetString("LOGINSUCCESS");
-                            return Ok(new { statuscode = 200, message = successMessage, data = validCredData });
-                        }
-                        else
-                        {
-                            return Ok(new { statuscode = 205, message = (resourceManager.GetString("LOGINFAIL")), data = validCredData });
-                        }
+                        string successMessage = resourceManager.GetString("LOGINSUCCESS");
+                        return Ok(new { statuscode = 200, message = successMessage, data });
                     }
                     else
                     {
-                        return Ok(new { statuscode = 201, message = (resourceManager.GetString("NOUSERFOUND")), data = new List<object>() });
+                        return Ok(new { statuscode = 205, message = resourceManager.GetString("LOGINFAIL"), data });
                     }
                 }
                 else
                 {
-                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")), data = new List<object>() });
+                    return Ok(new { statuscode = 405, message = resourceManager.GetString("NULLDBNAME") });
                 }
             }
             catch (Exception ex)
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GenerateToken_Account");
-                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = new List<object>() });
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST") });
             }
         }
         #endregion

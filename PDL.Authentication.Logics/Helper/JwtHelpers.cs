@@ -8,7 +8,7 @@ namespace PDL.Authentication.Logics.Helper
 {
     public static class JwtHelpers
     {
-        public static IEnumerable<Claim> GetClaims(this AccountTokens userAccounts, int Id)
+        public static IEnumerable<Claim> GetClaims(this AccountTokens userAccounts, Int64 Id)
         {
             if (userAccounts == null) throw new ArgumentNullException(nameof(userAccounts));
 
@@ -26,7 +26,7 @@ namespace PDL.Authentication.Logics.Helper
             return claims;
         }
 
-        public static IEnumerable<Claim> GetClaims(this AccountTokens userAccounts, out int Id)
+        public static IEnumerable<Claim> GetClaims(this AccountTokens userAccounts, out Int64 Id)
         {
             if (userAccounts == null) throw new ArgumentNullException(nameof(userAccounts));
 
@@ -46,7 +46,7 @@ namespace PDL.Authentication.Logics.Helper
                 // Get secret key
                 var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSigningKey ?? throw new ArgumentNullException(nameof(jwtSettings.IssuerSigningKey)));
 
-                int Id = 0;
+                Int64 Id = 0;
                 DateTime expireTime = DateTime.UtcNow.AddDays(1);
                 AccountToken.Validity = expireTime.TimeOfDay;
 

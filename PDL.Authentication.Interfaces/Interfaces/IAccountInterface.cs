@@ -9,7 +9,7 @@ namespace PDL.Authentication.Interfaces.Interfaces
 {
     public interface IAccountInterface
     {
-        dynamic LoginAccountValidate(AccountLoginVM accountLogin, string dbname, bool islive);
+        AccountTokens LoginAccountValidate(AccountLoginVM accountLogin, string dbname, bool islive);
 
     }
 }

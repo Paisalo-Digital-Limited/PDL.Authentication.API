@@ -14,7 +14,7 @@ namespace PDL.Authentication.Entites.VM
         [Required]
         public string Password { get; set; }
         public string? errormsg { get; set; }
-        public bool? isValidate { get; set; }
+        public bool isValidate { get; set; }
         public string? Name { get; set; }
         public int RoleId { get; set; }
         public string? Creator { get; set; }
