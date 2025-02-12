@@ -28,5 +28,12 @@ namespace PDL.Authentication.API.Controllers
             return val;
 
         }
+        protected bool GetIsCredlive()
+        {
+            bool val = false;
+            val = _configuration.GetValue<bool>("isCredlive");
+            return val;
+
+        }
     }
 }

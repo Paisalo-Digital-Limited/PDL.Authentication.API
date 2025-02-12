@@ -1,5 +1,5 @@
 ﻿
-namespace PDL.Authentication.Entities.VM
+namespace PDL.Authentication.Entites.VM
 {
     public class LosCodeExceptionLogVM
     {

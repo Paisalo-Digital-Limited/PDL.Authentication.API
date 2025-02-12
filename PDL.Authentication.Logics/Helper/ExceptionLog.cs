@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Microsoft.Extensions.Configuration;
-using PDL.Authentication.Entities.VM;
 using Microsoft.Data.SqlClient;
+using PDL.Authentication.Entites.VM;
 
 namespace PDL.Authentication.Logics.Helper
 {
