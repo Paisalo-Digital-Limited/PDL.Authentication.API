@@ -46,22 +46,23 @@ namespace PDL.Authentication.Logics.BLL
                         {
                             if (rdrUser.HasRows)
                             {
-
                                 while (rdrUser.Read())
                                 {
-                                    logindata.Id = Convert.ToInt64(rdrUser["Id"]);
-                                    logindata.Name = rdrUser["Name"].ToString();
-                                    logindata.Email = rdrUser["Email"].ToString();
-                                    logindata.Creator = rdrUser["Creator"].ToString();
-                                    logindata.EmpCode = rdrUser["EmpCode"].ToString();
-                                    logindata.RoleName = rdrUser["RoleName"].ToString();
+                                    logindata.Id = rdrUser["Id"] != DBNull.Value ? Convert.ToInt64(rdrUser["Id"]) : 0; 
+                                    logindata.Name = rdrUser["Name"] != DBNull.Value ? rdrUser["Name"].ToString() : string.Empty;
+                                    logindata.Email = rdrUser["Email"] != DBNull.Value ? rdrUser["Email"].ToString() : string.Empty;
+                                    logindata.Creator = rdrUser["Creator"] != DBNull.Value ? rdrUser["Creator"].ToString() : string.Empty;
+                                    logindata.EmpCode = rdrUser["EmpCode"] != DBNull.Value ? rdrUser["EmpCode"].ToString() : string.Empty;
+                                    logindata.RoleName = rdrUser["RoleName"] != DBNull.Value ? rdrUser["RoleName"].ToString() : string.Empty;
                                 }
-
                                 return JwtHelpers.GenTokenkey(logindata, _jwtSettings);
-
                             }
                             else
                             {
+                                if (logindata.Error == null)
+                                {
+                                    logindata.Error = new ErrorMessageVM();
+                                }
                                 logindata.Error.errormsg = "No matching user found.";
                                 logindata.Error.isValidate = false;
                                 return logindata;
