@@ -77,5 +77,70 @@ namespace PDL.Authentication.Logics.BLL
             }
         }
         #endregion
+        #region -----Change Password By ----------Satish Maurya-------
+        public dynamic UpdateAccountPassword(string encryptPass, string? EncriptOldPass, string Email, string dbname, bool islive)
+        {
+            int affected = 0;
+            string query = "Usp_UserDataTokenOrPassword";
+            string Password = null;
+            using (SqlConnection con = _credManager.getConnections(dbname, islive))
+            {
+                if (EncriptOldPass == null || EncriptOldPass == "")
+                {
+                    using (var cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "UpdateUserPassword");
+                        cmd.Parameters.AddWithValue("@Email", Email);
+                        cmd.Parameters.AddWithValue("@Password", encryptPass);
+                        if (con.State == ConnectionState.Closed)
+                            con.Open();
+                        affected = cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                else
+                {
+
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "checkOldPassword");
+                        cmd.Parameters.AddWithValue("@Email", Email);
+                        cmd.Parameters.AddWithValue("@Password", EncriptOldPass);
+
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            if (rdr.Read())
+                            {
+                                Password = rdr["Password"].ToString();
+                            }
+                        }
+                    }
+                    if (Password == EncriptOldPass)
+                    {
+                        using (var cmd = new SqlCommand(query, con))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Mode", "UpdateUserPassword");
+                            cmd.Parameters.AddWithValue("@Email", Email);
+                            cmd.Parameters.AddWithValue("@Password", encryptPass);
+                            if (con.State == ConnectionState.Closed)
+                                con.Open();
+                            affected = cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                    else
+                    {
+                        affected = -1;
+                    }
+                }
+
+            }
+            return affected;
+        }
+        #endregion
     }
 }

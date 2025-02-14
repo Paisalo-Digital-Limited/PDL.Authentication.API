@@ -21,4 +21,9 @@ namespace PDL.Authentication.Entites.VM
         public string? EmpCode { get; set; }
         public string? RoleName { get; set; }
     }
+    public class AccountFogotPassword
+    {
+        public string Password { get; set; }
+        public string? OldPassword { get; set; }
+    }
 }

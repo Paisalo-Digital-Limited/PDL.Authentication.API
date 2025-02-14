@@ -138,4 +138,13 @@
   <data name="GETSUCCESS" xml:space="preserve">
     <value>Get Record Successfully!!</value>
   </data>
+  <data name="UPDATESUCCESS" xml:space="preserve">
+    <value>Record Updated Successfully!!</value>
+  </data>
+  <data name="NOTMATCH" xml:space="preserve">
+    <value>Does't match oldpassword</value>
+  </data>
+  <data name="UPDATEFAIL" xml:space="preserve">
+    <value>Failed To Update Record!!</value>
+  </data>
 </root>

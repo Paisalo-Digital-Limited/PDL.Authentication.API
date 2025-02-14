@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PDL.Authentication.Entites.VM;
 using PDL.Authentication.Interfaces.Interfaces;
 using PDL.Authentication.Logics.Helper;
 using System.Dynamic;
+using System.Security.Claims;
 
 namespace PDL.Authentication.API.Controllers
 {
@@ -49,6 +51,51 @@ namespace PDL.Authentication.API.Controllers
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GenerateToken_Account");
                 return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST") });
+            }
+        }
+        #endregion
+        [HttpPost]
+        [Authorize]
+        #region -----Change Password By ----------Satish Maurya-------
+        public IActionResult ChangePassword(AccountFogotPassword obj)
+        {
+            string key = _configuration.GetValue<string>("encryptSalts:password");
+            try
+            {
+                string dbname = GetDBName();
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    string EmailId = User.FindFirstValue(ClaimTypes.Email);
+                    string EncriptPass = Helper.Encrypt(obj.Password, key);
+                    string EncriptOldPass = Helper.Encrypt(obj.OldPassword, key);
+                    int res = _accountInterface.UpdateAccountPassword(EncriptPass, EncriptOldPass, EmailId, dbname, GetIslive());
+                    if (res > 0)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = resourceManager.GetString("UPDATESUCCESS"),
+                            data = res
+                        });
+                    }
+                    else if (res == -1)
+                    {
+                        return Ok(new { statuscode = 203, message = (resourceManager.GetString("NOTMATCH")), data = res });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 201, message = (resourceManager.GetString("UPDATEFAIL")), data = res });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME"))});
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "ChangePassword_Account");
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST"))});
             }
         }
         #endregion
