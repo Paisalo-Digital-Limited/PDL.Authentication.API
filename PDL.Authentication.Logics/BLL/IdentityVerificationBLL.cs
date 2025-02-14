@@ -56,7 +56,7 @@ namespace PDL.Authentication.Logics.BLL
                     dynamic obj = new ExpandoObject();
                     obj.panNumber = objVM.txtnumber;
 
-                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _helper.GetPancardBaseurl(), docVerifyApiKey);
+                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("voteridBaseurl"), docVerifyApiKey);
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         result = JsonConvert.DeserializeObject<PanCardModelVM>(response.ResponseContent);
