@@ -147,4 +147,7 @@
   <data name="UPDATEFAIL" xml:space="preserve">
     <value>Failed To Update Record!!</value>
   </data>
+  <data name="EMAILNOTFOUND" xml:space="preserve">
+    <value>This Email Not Found</value>
+  </data>
 </root>
