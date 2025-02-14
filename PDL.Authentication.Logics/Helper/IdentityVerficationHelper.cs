@@ -54,38 +54,5 @@ namespace PDL.Authentication.Logics.Helper
             }
         }
         #endregion
-        public string GetPancardBaseurl()
-        {
-            string val = null;
-            val = _configuration.GetValue<string>("pancardBaseurl");
-            return val;
-        }
-        public string GetvoteridBaseurl()
-        {
-            string val = null;
-            val = _configuration.GetValue<string>("voteridBaseurl");
-            return val;
-        }
-        public string GetRCchecknoBaseurl()
-        {
-            string val = null;
-            val = _configuration.GetValue<string>("rcchecknoBaseurl");
-            return val;
-        }
-        public string GetDrivingLicenseBaseurl()
-        {
-            string val = null;
-            val = _configuration.GetValue<string>("drivinglicenseBaseurl");
-            return val;
-        }
-        public string GetBankAccountBaseurl()
-        {
-            string val = null;
-            val = _configuration.GetValue<string>("bankaccountBaseurl");
-            return val;
-        }
-
-
-
     }
 }
