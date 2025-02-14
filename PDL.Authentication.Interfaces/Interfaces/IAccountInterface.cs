@@ -11,6 +11,7 @@ namespace PDL.Authentication.Interfaces.Interfaces
     {
         AccountTokens LoginAccountValidate(AccountLoginVM accountLogin, string dbname, bool islive);
         dynamic UpdateAccountPassword(string encryptPass, string? EncriptOldPass, string Email, string dbname, bool islive);
+        dynamic ForGotPassword(string Email, string dbname, bool islive);
 
     }
 }
