@@ -132,4 +132,10 @@
   <data name="NOACCOUNT" xml:space="preserve">
     <value>Account Not Found !!</value>
   </data>
+  <data name="GETFAIL" xml:space="preserve">
+    <value>Failed To Get Record!!</value>
+  </data>
+  <data name="GETSUCCESS" xml:space="preserve">
+    <value>Get Record Successfully!!</value>
+  </data>
 </root>

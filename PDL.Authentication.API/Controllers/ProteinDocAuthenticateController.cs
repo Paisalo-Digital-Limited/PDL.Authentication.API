@@ -20,6 +20,8 @@ namespace PDL.Authentication.API.Controllers
             _configuration = configuration;
             _proteinAuthenticate = proteinAuthenticate;
         }
+
+        #region --------- Doc verification By ----- Satish Maurya -------
         [HttpPost]
         public IActionResult GetVoterDetails(VotterVM objVm)
         {
@@ -213,5 +215,7 @@ namespace PDL.Authentication.API.Controllers
                 return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST") });
             }
         }
+        #endregion
+
     }
 }

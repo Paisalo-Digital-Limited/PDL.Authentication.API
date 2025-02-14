@@ -22,6 +22,7 @@ namespace PDL.Authentication.Logics.BLL
             strKey = Utils.RandomString(16);
             bKey = Encoding.UTF8.GetBytes(strKey);
         }
+        #region    -----ProteinDocVerify -------- Satsih Maurya ---------
         public dynamic GetVerifyDetails(KycDocVM docVM, string token,string dbname, bool iscredlive, bool isdblive)
         {
             dynamic result = null;
@@ -205,7 +206,6 @@ namespace PDL.Authentication.Logics.BLL
             }
             return null;
         }
-
         private dynamic GetVehicleVerification(KycDocVM docVM, Dictionary<string, string> keyValuePairs, string token, string dbname, bool isdblive)
         {
             using (HelperBLL helperbll = new HelperBLL())
@@ -305,20 +305,15 @@ namespace PDL.Authentication.Logics.BLL
             }
             return null;
         }
-        
         private void InsertProteanKycLogs(string userid, string request, string response, string docType, string dbname, bool isdblive)
         {
             try
             {
-                //var jsonResponse = JsonConvert.DeserializeObject<JObject>(response);
-                
                 JObject jsonResponse = JObject.Parse(response);
 
-                //For Voter Details
                 string name = jsonResponse["result"]?["name"]?.ToString();
                 string epicNo = jsonResponse["result"]?["epicNo"]?.ToString();
 
-                //For Bank Details
                 string accountName = jsonResponse["result"]?["accountName"]?.ToString();
                 string accountNumber = jsonResponse["result"]?["accountNumber"]?.ToString();
                 string ifsc = jsonResponse["result"]?["ifsc"]?.ToString();
@@ -371,7 +366,6 @@ namespace PDL.Authentication.Logics.BLL
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
-
         private string TimesStampCreation()
         {
             DateTime currentDate = DateTime.Now;
@@ -379,6 +373,6 @@ namespace PDL.Authentication.Logics.BLL
             string formattedTimestamp = currentDatePlusOne.ToString("yyyy-MM-dd 'T'HH:mm:ss.fff");
             return formattedTimestamp;
         }
-
+        #endregion
     }
 }

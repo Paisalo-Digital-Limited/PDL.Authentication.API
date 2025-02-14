@@ -13,6 +13,10 @@ namespace PDL.Authentication.API.Extensions
             collection.AddHttpClient();
             collection.AddScoped<CredManager>();
             collection.AddScoped<IAccountInterface, AccountRepository>();
+            collection.AddScoped<IProteinAuthenticate, AuthenticateRepository>();
+            collection.AddScoped<IdentityVerification, IdentityVerificationRepository>();
+            collection.AddScoped<IPANVerify, PANVerificationRepository>();
+            collection.AddScoped<IDocVerify, ProteinDocVerifyRepository>();
         }
         #endregion
     }

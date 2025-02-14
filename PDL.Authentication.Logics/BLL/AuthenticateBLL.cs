@@ -28,6 +28,7 @@ namespace PDL.Authentication.Logics.BLL
             _httpClientFactory = httpClientFactory;
 
         }
+        #region --------- Doc verification By ----- Satish Maurya -------
         public async Task<string> GetAccessTokenAsync(string dbname, bool isCredlive, bool islive)
         {
             if (_memoryCache.TryGetValue<string>("AccessToken", out var accessToken))
@@ -94,5 +95,8 @@ namespace PDL.Authentication.Logics.BLL
         //    var refreshedToken = await RequestNewAccessToken(_credManager.KycCredential(Convert.ToBoolean(islive)));
         //    _memoryCache.Set("AccessToken", refreshedToken, TimeSpan.FromMinutes(60));
         //}
+
+        #endregion
+
     }
 }

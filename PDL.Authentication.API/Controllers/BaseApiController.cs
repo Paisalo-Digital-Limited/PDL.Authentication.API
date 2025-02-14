@@ -26,14 +26,19 @@ namespace PDL.Authentication.API.Controllers
             bool val = false;
             val = _configuration.GetValue<bool>("isliveDb");
             return val;
-
         }
         protected bool GetIsCredlive()
         {
             bool val = false;
             val = _configuration.GetValue<bool>("isCredlive");
             return val;
-
+        }               
+        protected string GetDocLiveVerifyApiKey()
+        {
+            string val = null;
+            val = _configuration.GetValue<string>("docLiveVerifyApiKey");
+            return val;
         }
+        
     }
 }

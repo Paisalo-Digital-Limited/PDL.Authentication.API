@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,6 +10,8 @@ namespace PDL.Authentication.Logics.Helper
 {
     public class Helper
     {
+        
+
         public static string Encrypt(string clearText, string key)
         {
             try
@@ -63,5 +66,6 @@ namespace PDL.Authentication.Logics.Helper
                 return "";
             }
         }
+       
     }
 }

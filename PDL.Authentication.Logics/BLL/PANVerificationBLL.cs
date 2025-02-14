@@ -21,6 +21,7 @@ namespace PDL.Authentication.Logics.BLL
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
         }
+        #region    -----PANVerification -------- Satsih Maurya ---------
         public List<PANVerifyResponse> ProcessVerifyPanData(List<PANVerify> panVerify, string dbname, bool isCredlive, bool islive)
         {
             List<PANVerifyResponse> responseList = null;
@@ -187,5 +188,7 @@ namespace PDL.Authentication.Logics.BLL
                 }
             }
         }
+        #endregion
+
     }
 }
