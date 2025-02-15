@@ -69,7 +69,7 @@ namespace PDL.Authentication.Logics.Helper
             return isSuccess;
 
         }
-        public  string GeneratePassword()
+        public  string GenerateOTP()
         {
             string PasswordLength = "6";
             string NewPassword = "";
