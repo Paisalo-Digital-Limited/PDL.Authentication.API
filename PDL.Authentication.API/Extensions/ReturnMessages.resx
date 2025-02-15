@@ -150,4 +150,28 @@
   <data name="EMAILNOTFOUND" xml:space="preserve">
     <value>This Email Not Found</value>
   </data>
+  <data name="NOUSERFOUND" xml:space="preserve">
+    <value>Record Not Found !!!</value>
+  </data>
+  <data name="SENDOTP" xml:space="preserve">
+    <value>Send OTP on Your Email !!</value>
+  </data>
+  <data name="NOTSENDOTP" xml:space="preserve">
+    <value>OTP not send !!</value>
+  </data>
+  <data name="INSERTFAIL" xml:space="preserve">
+    <value>failed to insert otp !!!</value>
+  </data>
+  <data name="EXPIREDOTP" xml:space="preserve">
+    <value>OTP has been expired.</value>
+  </data>
+  <data name="EMAILNOT" xml:space="preserve">
+    <value>Email Id Not Found !!!</value>
+  </data>
+  <data name="TOKENNOTGEN" xml:space="preserve">
+    <value>Token Not Generated</value>
+  </data>
+  <data name="INVALIDOTP" xml:space="preserve">
+    <value>invalid otp !!!</value>
+  </data>
 </root>
