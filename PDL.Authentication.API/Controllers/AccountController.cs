@@ -199,5 +199,66 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         #endregion
+        #region --------- ForgotPassword By ----- Satish Maurya -------
+        [HttpPost]
+        public IActionResult ForgotPassword(string EmailId, string OTP, string Password)
+        {
+            try
+            {
+                string dbname = GetDBName();
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    EmailOTPInfo va = _accountInterface.CheckEmailOTP(EmailId, OTP, "Forgot", dbname, GetIslive());
+                    var otp = va.OTP;
+                    var otps = OTP;
+                    var t = va.CreatedOn;
+                    var now = DateTime.Now;
+                    var fiveMinutesBeforeNow = now.AddMinutes(-5);
+
+                    if (va.EmailId != null)
+                    {
+                        if (otp == otps) // Check if the OTPs match
+                        {
+                            if (DateTime.Parse(t) < fiveMinutesBeforeNow) // Check if the OTP onder 5 min
+                            {
+                                return Ok(new { statuscode = 206, message = resourceManager.GetString("EXPIREDOTP") });
+                            }
+                            else
+                            {
+                                string EncriptPass = Helper.Encrypt(Password, _configuration.GetValue<string>("encryptSalts:password"));
+                                int res = _accountInterface.UpdateAccountPassword(EncriptPass, "", EmailId, dbname, GetIslive());
+
+                                if (res >0)
+                                {
+                                    return Ok(new { statuscode = 200, message = resourceManager.GetString("UPDATESUCCESS"), data="success" });
+                                }
+                                else
+                                {
+                                    return Ok(new { statuscode = 205, message = resourceManager.GetString("UPDATEFAIL") });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new { statuscode = 204, message = resourceManager.GetString("INVALIDOTP") });
+                        }
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 203, message = (resourceManager.GetString("EMAILNOT")) });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = resourceManager.GetString("NULLDBNAME") });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GenerateToken_Account");
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST") });
+            }
+        }
+        #endregion
     }
 }
