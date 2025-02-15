@@ -35,7 +35,7 @@ namespace PDL.Authentication.Logics.BLL
                 using (SqlConnection con = _credManager.getConnections(dbname, islive))
                 {
                     con.Open();
-                    string query = "Usp_UserDataTokenOrPassword";
+                    string query = "Usp_TokenAuthentication";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -82,7 +82,7 @@ namespace PDL.Authentication.Logics.BLL
         public dynamic UpdateAccountPassword(string encryptPass, string? EncriptOldPass, string Email, string dbname, bool islive)
         {
             int affected = 0;
-            string query = "Usp_UserDataTokenOrPassword";
+            string query = "Usp_TokenAuthentication";
             string Password = null;
             using (SqlConnection con = _credManager.getConnections(dbname, islive))
             {
