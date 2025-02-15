@@ -30,5 +30,13 @@ namespace PDL.Authentication.Repository.Repository
                 return accountBLL.UpdateAccountPassword(encryptPass, EncriptOldPass, Email, dbname, islive);
             }
         }
+        public dynamic ForGotPassword(string Email, string dbname, bool islive)
+        {
+            using (AccountBLL accountBLL = new AccountBLL(_configuration, _jwtSettings))
+            {
+                return accountBLL.ForGotPassword(Email, dbname, islive);
+            }
+        }
+
     }
 }

@@ -56,7 +56,7 @@ namespace PDL.Authentication.Logics.BLL
                     dynamic obj = new ExpandoObject();
                     obj.panNumber = objVM.txtnumber;
 
-                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("voteridBaseurl"), docVerifyApiKey);
+                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("pancardBaseurl"), docVerifyApiKey);
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         result = JsonConvert.DeserializeObject<PanCardModelVM>(response.ResponseContent);
@@ -80,7 +80,7 @@ namespace PDL.Authentication.Logics.BLL
                     obj.voter_id = objVM.txtnumber;
 
 
-                    string baseurl = _helper.GetvoteridBaseurl() + objVM.txtnumber;
+                    string baseurl = _configuration.GetValue<string>("voteridBaseurl") + objVM.txtnumber;
 
                     ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), baseurl, docVerifyApiKey);
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -104,7 +104,7 @@ namespace PDL.Authentication.Logics.BLL
                     dynamic obj = new ExpandoObject();
                     obj.rc_number = objVM.txtnumber;
 
-                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _helper.GetRCchecknoBaseurl(), docVerifyApiKey);
+                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("rcchecknoBaseurl"), docVerifyApiKey);
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         result = JsonConvert.DeserializeObject<RcChecknumberVM>(response.ResponseContent);
@@ -127,7 +127,7 @@ namespace PDL.Authentication.Logics.BLL
                     obj.id_number = objVM.txtnumber;
                     obj.ifsc = objVM.Ifsc;
 
-                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _helper.GetBankAccountBaseurl(), docVerifyApiKey);
+                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("bankaccountBaseurl"), docVerifyApiKey);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
@@ -150,7 +150,7 @@ namespace PDL.Authentication.Logics.BLL
                     obj.id_number = objVM.txtnumber;
                     obj.dob = objVM.userdob;
 
-                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _helper.GetDrivingLicenseBaseurl(), docVerifyApiKey);
+                    ApiCallResponseVM response = await _helper.GetDocVerifyResponseAsync(JsonConvert.SerializeObject(obj), _configuration.GetValue<string>("drivinglicenseBaseurl"), docVerifyApiKey);
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         result = JsonConvert.DeserializeObject<UserDrivingLicenseVM>(response.ResponseContent);

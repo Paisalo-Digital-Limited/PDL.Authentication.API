@@ -142,5 +142,30 @@ namespace PDL.Authentication.Logics.BLL
             return affected;
         }
         #endregion
+        #region ForGot Password By ---------Satish Maurya-----------
+        public string ForGotPassword(string Email, string dbname, bool islive)
+        {
+            string email = null;
+            using (SqlConnection con = _credManager.getConnections(dbname, islive))
+            {
+                string query = "Usp_UserDataTokenOrPassword";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "ForGotPassword");
+                    cmd.Parameters.AddWithValue("@Email", Email);
+                    con.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            email = reader["Email"].ToString();
+                        }
+                    }
+                }
+            }
+            return email;
+        }
+        #endregion
     }
 }
