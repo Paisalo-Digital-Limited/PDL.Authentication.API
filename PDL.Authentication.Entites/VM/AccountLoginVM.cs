@@ -13,6 +13,8 @@ namespace PDL.Authentication.Entites.VM
         public string EmailId { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public string OTP { get; set; }
         public string? errormsg { get; set; }
         public bool isValidate { get; set; }
         public string? Name { get; set; }
@@ -25,5 +27,12 @@ namespace PDL.Authentication.Entites.VM
     {
         public string Password { get; set; }
         public string? OldPassword { get; set; }
+        public string? OTP { get; set; }
+    }
+    public class EmailOTPInfo
+    {
+        public string EmailId { get; set; }
+        public string OTP { get; set; }
+        public string CreatedOn { get; set; }
     }
 }
