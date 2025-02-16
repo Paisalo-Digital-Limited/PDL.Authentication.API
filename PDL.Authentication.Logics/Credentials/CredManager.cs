@@ -21,9 +21,9 @@ namespace PDL.Authentication.Logics.Credentials
             {
            
                 if (!islive)
-                    conStr = $"Data Source=192.168.10.2;Initial Catalog={db};User ID={""};Password={""};Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
+                    conStr = $"Data Source=192.168.10.2;Initial Catalog={db};User ID=sa;Password=Sasqlserver2022@10.2;Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
                 else
-                    conStr = $"Data Source=192.168.10.2;Initial Catalog={db};User ID={""};Password={""};Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
+                    conStr = $"Data Source=192.168.10.2;Initial Catalog={db};User ID=sa;Password=Sasqlserver2022@10.2;Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
                     newConn = new SqlConnection(conStr);
                 return newConn;
             }
