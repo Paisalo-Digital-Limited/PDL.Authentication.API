@@ -10,13 +10,13 @@ namespace PDL.Authentication.Logics.Helper
 {
     public class CommonHelper : BaseBLL
     {
-        public  bool SendMail(SendMailVM objVM)
+        public bool SendMail(SendMailVM objVM, string Type)
         {
             bool isSuccess = false;
-            var resetpassword = "Your New Password is {newpwd} . Now after Login Your Account and change your Password";
+            var resetotp = "Your " + Type + " OTP is {newpwd}";
             try
             {
-                resetpassword = resetpassword.Replace("{newpwd}", objVM.Password);
+                resetotp = resetotp.Replace("{newpwd}", objVM.Password);
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
                 message.From = new MailAddress("reporting.donotreply@seil.in");
@@ -50,7 +50,7 @@ namespace PDL.Authentication.Logics.Helper
                         }
                     }
                 }
-                message.Body = resetpassword;
+                message.Body = resetotp;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Port = 587;
                 smtp.Host = "smtp.gmail.com";
@@ -69,7 +69,7 @@ namespace PDL.Authentication.Logics.Helper
             return isSuccess;
 
         }
-        public  string GenerateOTP()
+        public string GenerateOTP()
         {
             string PasswordLength = "6";
             string NewPassword = "";
