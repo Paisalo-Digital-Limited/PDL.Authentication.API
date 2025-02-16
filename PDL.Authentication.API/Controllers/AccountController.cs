@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using PDL.Authentication.Entites.VM;
 using PDL.Authentication.Interfaces.Interfaces;
 using PDL.Authentication.Logics.Helper;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Security.Claims;
+using static System.Net.WebRequestMethods;
 
 namespace PDL.Authentication.API.Controllers
 {
@@ -30,16 +32,50 @@ namespace PDL.Authentication.API.Controllers
                 string dbname = GetDBName();
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    AccountTokens data = _accountInterface.LoginAccountValidate(accountLogin, dbname, GetIslive());
+                    EmailOTPInfo va = _accountInterface.CheckEmailOTP(accountLogin.EmailId, accountLogin.OTP, "Login", dbname, GetIslive());
+                    var otp = va.OTP;
+                    var otps = accountLogin.OTP;
+                    var t = va.CreatedOn;
+                    var now = DateTime.Now;
+                    var fiveMinutesBeforeNow = now.AddMinutes(-5);
 
-                    if (data != null)
+                    if (va.EmailId != null)
                     {
-                        string successMessage = resourceManager.GetString("LOGINSUCCESS");
-                        return Ok(new { statuscode = 200, message = successMessage, data });
+                        if (otp == otps) // Check if the OTPs match
+                        {
+                            if (DateTime.Parse(t) < fiveMinutesBeforeNow) // Check if the OTP onder 5 min
+                            {
+                                return Ok(new { statuscode = 206, message = resourceManager.GetString("EXPIREDOTP") });
+                            }
+                            else
+                            {
+                                AccountTokens data = _accountInterface.LoginAccountValidate(accountLogin, dbname, GetIslive());
+
+                                if (data != null)
+                                {
+                                    if (data.Error == null)
+                                    {
+                                        return Ok(new { statuscode = 200, message = resourceManager.GetString("LOGINSUCCESS"), data });
+                                    }
+                                    else
+                                    {
+                                        return Ok(new { statuscode = 205, message = resourceManager.GetString("LOGINFAIL"), data });
+                                    }
+                                }
+                                else
+                                {
+                                    return Ok(new { statuscode = 201, message = (resourceManager.GetString("TOKENNOTGEN")) });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new { statuscode = 204, message = resourceManager.GetString("INVALIDOTP") });
+                        }
                     }
                     else
                     {
-                        return Ok(new { statuscode = 205, message = resourceManager.GetString("LOGINFAIL"), data });
+                        return Ok(new { statuscode = 203, message = (resourceManager.GetString("EMAILNOT")) });
                     }
                 }
                 else
@@ -89,19 +125,19 @@ namespace PDL.Authentication.API.Controllers
                 }
                 else
                 {
-                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME"))});
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")) });
                 }
             }
             catch (Exception ex)
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "ChangePassword_Account");
-                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST"))});
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")) });
             }
         }
         #endregion
-        #region ForGot Password By ---------Satish Maurya-----------
+        #region CheckEmail By ---------Satish Maurya-----------
         [HttpGet]
-        public IActionResult ForGotPassword(string Email)
+        public IActionResult SendOTPEmail(string Email, string Type)
         {
             CommonHelper commonHelper = new CommonHelper();
             string key = _configuration.GetValue<string>("encryptSalts:password");
@@ -110,10 +146,10 @@ namespace PDL.Authentication.API.Controllers
                 string dbname = GetDBName();
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    dynamic res = _accountInterface.ForGotPassword(Email, dbname, GetIslive());
+                    dynamic res = _accountInterface.CheckEmail(Email, dbname, GetIslive());
                     if (res != null)
                     {
-                        var randampass = commonHelper.GeneratePassword();
+                        var randampass = commonHelper.GenerateOTP();
                         SendMailVM sendMailVM = new SendMailVM();
 
                         sendMailVM.Type = "resetpassword";
@@ -121,48 +157,106 @@ namespace PDL.Authentication.API.Controllers
                         sendMailVM.Subject = "Reset Password";
                         sendMailVM.Password = randampass;
                         bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM);
-                        if (sendPasswordOnMail)
-                        {
-                            var responseData = new Dictionary<string, object>
-                        {
-                            { "emailId", res },
-                            { "otp", randampass }
-                        };
 
-                            if (sendPasswordOnMail == true)
+                        if (sendPasswordOnMail == true)
+                        {
+                            int insert = _accountInterface.InsertEmailOTP(res, randampass, Type, dbname, GetIslive());
+
+                            if (insert > 0)
                             {
                                 return Ok(new
                                 {
                                     statuscode = 200,
-                                    message = resourceManager.GetString("GETSUCCESS"),
-                                    data = responseData
+                                    message = resourceManager.GetString("SENDOTP"),
+                                    data = "success"
                                 });
                             }
                             else
                             {
-                                return Ok(new { statuscode = 201, message = (resourceManager.GetString("GETFAIL")), data = res });
+                                return Ok(new { statuscode = 201, message = (resourceManager.GetString("INSERTFAIL")) });
                             }
                         }
                         else
                         {
-                            return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")) });
+                            return Ok(new { statuscode = 203, message = (resourceManager.GetString("NOTSENDOTP")) });
                         }
                     }
                     else
                     {
-                        return Ok(new { statuscode = 203, message = (resourceManager.GetString("EMAILNOTFOUND")) });
+                        return Ok(new { statuscode = 204, message = (resourceManager.GetString("EMAILNOTFOUND")) });
                     }
 
                 }
                 else
                 {
-                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME"))});
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")) });
                 }
             }
             catch (Exception ex)
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "ForGotPassword_Account");
-                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST"))});
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")) });
+            }
+        }
+        #endregion
+        #region --------- ForgotPassword By ----- Satish Maurya -------
+        [HttpPost]
+        public IActionResult ForgotPassword(string EmailId, string OTP, string Password)
+        {
+            try
+            {
+                string dbname = GetDBName();
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    EmailOTPInfo va = _accountInterface.CheckEmailOTP(EmailId, OTP, "Forgot", dbname, GetIslive());
+                    var otp = va.OTP;
+                    var otps = OTP;
+                    var t = va.CreatedOn;
+                    var now = DateTime.Now;
+                    var fiveMinutesBeforeNow = now.AddMinutes(-5);
+
+                    if (va.EmailId != null)
+                    {
+                        if (otp == otps) // Check if the OTPs match
+                        {
+                            if (DateTime.Parse(t) < fiveMinutesBeforeNow) // Check if the OTP onder 5 min
+                            {
+                                return Ok(new { statuscode = 206, message = resourceManager.GetString("EXPIREDOTP") });
+                            }
+                            else
+                            {
+                                string EncriptPass = Helper.Encrypt(Password, _configuration.GetValue<string>("encryptSalts:password"));
+                                int res = _accountInterface.UpdateAccountPassword(EncriptPass, "", EmailId, dbname, GetIslive());
+
+                                if (res >0)
+                                {
+                                    return Ok(new { statuscode = 200, message = resourceManager.GetString("UPDATESUCCESS"), data="success" });
+                                }
+                                else
+                                {
+                                    return Ok(new { statuscode = 205, message = resourceManager.GetString("UPDATEFAIL") });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Ok(new { statuscode = 204, message = resourceManager.GetString("INVALIDOTP") });
+                        }
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 203, message = (resourceManager.GetString("EMAILNOT")) });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = resourceManager.GetString("NULLDBNAME") });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GenerateToken_Account");
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST") });
             }
         }
         #endregion
