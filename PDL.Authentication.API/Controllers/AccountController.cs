@@ -156,7 +156,7 @@ namespace PDL.Authentication.API.Controllers
                         sendMailVM.ToEmail = res.ToString();
                         sendMailVM.Subject = "Reset Password";
                         sendMailVM.Password = randampass;
-                        bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM);
+                        bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type);
 
                         if (sendPasswordOnMail == true)
                         {
