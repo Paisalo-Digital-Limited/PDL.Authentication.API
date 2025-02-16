@@ -174,4 +174,22 @@
   <data name="INVALIDOTP" xml:space="preserve">
     <value>invalid otp !!!</value>
   </data>
+  <data name="INSERTSUCCESS" xml:space="preserve">
+    <value>Record Insert Successfully!!</value>
+  </data>
+  <data name="DETAILEXISTS" xml:space="preserve">
+    <value>Record  All Ready Exists !!</value>
+  </data>
+  <data name="INSERTFAILDATA" xml:space="preserve">
+    <value>Failed To Insert Record!!</value>
+  </data>
+  <data name="NOTEXIST" xml:space="preserve">
+    <value>This Record Not Exist</value>
+  </data>
+  <data name="DELETESUCCESS" xml:space="preserve">
+    <value>Record Delete Successfully!!</value>
+  </data>
+  <data name="DELETEFAIL" xml:space="preserve">
+    <value>Failed To Delete Record!!</value>
+  </data>
 </root>
