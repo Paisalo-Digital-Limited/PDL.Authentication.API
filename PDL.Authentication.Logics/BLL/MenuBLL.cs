@@ -226,6 +226,7 @@ namespace PDL.Authentication.Logics.BLL
             }
             catch (Exception ex)
             {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "UpdateMenuData");
                 throw new Exception("Error: " + ex.Message);
             }
             return aff;
@@ -266,6 +267,7 @@ namespace PDL.Authentication.Logics.BLL
             }
             catch (Exception ex)
             {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "DeleteMenuData");
                 throw new Exception("Error: " + ex.Message);
             }
             return aff;
@@ -343,7 +345,7 @@ namespace PDL.Authentication.Logics.BLL
             }
             catch (Exception ex)
             {
-                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "GetRoles");
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "GetUserDDL");
                 throw new Exception("Error: " + ex.Message);
             }
             return list;
@@ -395,23 +397,26 @@ namespace PDL.Authentication.Logics.BLL
             try
             {
                 using (var con = _credManager.getConnections(dbname, islive))
-                using (var cmd = new SqlCommand(query, con))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Mode", "GetDataUserPageMaster");
-                    cmd.Parameters.AddWithValue("@RoleId", RoleId);
-                    con.Open();
-                    using (var reader = cmd.ExecuteReader())
+                    using (var cmd = new SqlCommand(query, con))
                     {
-                        while (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "GetDataUserPageMaster");
+                        cmd.Parameters.AddWithValue("@RoleId", RoleId);
+                        con.Open();
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            var menuData = new GetMenuPermissionVM
+                            while (reader.Read())
                             {
-                                Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
-                                RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
-                                PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
-                            };
-                            menuDataList.Add(menuData);
+                                var menuData = new GetMenuPermissionVM
+                                {
+                                    Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+                                    RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
+                                    PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
+                                    AssignStatus = reader["AssignStatus"] != DBNull.Value ? reader["AssignStatus"].ToString() : null,
+                                };
+                                menuDataList.Add(menuData);
+                            }
                         }
                     }
                 }
@@ -425,5 +430,5 @@ namespace PDL.Authentication.Logics.BLL
         }
         #endregion
     }
-    
+
 }
