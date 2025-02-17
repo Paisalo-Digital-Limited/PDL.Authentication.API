@@ -18,6 +18,7 @@ namespace PDL.Authentication.Interfaces.Interfaces
         List<GetRolesMasterVM> GetRoles(string dbname, bool islive);
         List<GetUSerMasterVM> GetUserDDL(int roleid, string dbname, bool islive);
         List<MenuPagePermission> AssignUserRolePage(List<MenuPagePermission> RolePErmission, string dbname, bool islive, string activeuser);
+        List<GetMenuPermissionVM> GetPermissionPageList(int RoleId, string dbname, bool islive);
 
     }
 }
