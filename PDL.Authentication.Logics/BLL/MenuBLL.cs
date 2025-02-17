@@ -387,7 +387,42 @@ namespace PDL.Authentication.Logics.BLL
             }
             return obj;
         }
-        
+        public List<GetMenuPermissionVM> GetPermissionPageList(int RoleId, string dbname, bool islive)
+        {
+            var menuDataList = new List<GetMenuPermissionVM>();
+
+            const string query = "Usp_MenuListdata";
+            try
+            {
+                using (var con = _credManager.getConnections(dbname, islive))
+                using (var cmd = new SqlCommand(query, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "GetDataUserPageMaster");
+                    cmd.Parameters.AddWithValue("@RoleId", RoleId);
+                    con.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var menuData = new GetMenuPermissionVM
+                            {
+                                Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+                                RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
+                                PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
+                            };
+                            menuDataList.Add(menuData);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "GetPermissionPageMaster");
+                throw new Exception("Error: " + ex.Message);
+            }
+            return menuDataList;
+        }
         #endregion
     }
     

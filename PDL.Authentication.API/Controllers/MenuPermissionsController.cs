@@ -394,7 +394,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         #endregion
-        #region  -----Assign User Role Page ------------- BY SATISH MAURYA ------------
+        #region  -----Get and Assign User Role Page ------------- BY SATISH MAURYA ------------
         [HttpPost]
         public IActionResult AssignUserRolePage(List<MenuPagePermission> obj)
         {
@@ -434,6 +434,46 @@ namespace PDL.Authentication.API.Controllers
             catch (Exception ex)
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "AssignUserRolePage_MenuPermissions");
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = "" });
+            }
+        }
+        [HttpGet]
+        public IActionResult GetPermissionPageList(int RoleId)
+        {
+            try
+            {
+                string dbname = GetDBName();
+                string activeuser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    List<GetMenuPermissionVM> res = _menuInterface.GetPermissionPageList(RoleId, dbname, GetIslive());
+                    if (res.Count > 0)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = (resourceManager.GetString("GETSUCCESS")),
+                            data = res
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 201,
+                            message = (resourceManager.GetString("GETFAIL")),
+                            data = res
+                        });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")), data = "" });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GetPermissionPageMaster_MenuPermissions");
                 return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = "" });
             }
         }
