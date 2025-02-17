@@ -34,5 +34,12 @@ namespace PDL.Authentication.Entites.VM
         public string EmailId { get; set; }
         public string OTP { get; set; }
         public string CreatedOn { get; set; }
+
+    }
+    public class ForgotPassword
+    {
+        public string EmailId { get; set; }
+        public string OTP { get; set; }
+        public string Password { get; set; }
     }
 }
