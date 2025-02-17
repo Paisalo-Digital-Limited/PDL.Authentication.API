@@ -73,5 +73,19 @@ namespace PDL.Authentication.Repository.Repository
                 return menuBll.GetRoles(dbname, islive);
             }
         }
+        public List<GetUSerMasterVM> GetUserDDL(int roleid, string dbname, bool islive)
+        {
+            using (MenuBLL menuBll = new MenuBLL(_configuration))
+            {
+                return menuBll.GetUserDDL(roleid, dbname, islive);
+            }
+        }
+        public List<MenuPagePermission> AssignUserRolePage(List<MenuPagePermission> RolePErmission, string dbname, bool islive, string activeuser)
+        {
+            using (MenuBLL menuBll = new MenuBLL(_configuration))
+            {
+                return menuBll.AssignInsertMenus(RolePErmission, dbname, islive, activeuser);
+            }
+        }
     }
 }

@@ -8,6 +8,8 @@ using PDL.Authentication.Interfaces.Interfaces;
 using PDL.Authentication.Entites.VM;
 using Microsoft.AspNetCore.Authorization;
 using Org.BouncyCastle.Asn1.Cms;
+using Newtonsoft.Json;
+using System.Data;
 
 namespace PDL.Authentication.API.Controllers
 {
@@ -90,7 +92,7 @@ namespace PDL.Authentication.API.Controllers
                 if (!string.IsNullOrEmpty(dbname))
                 {
                     bool isLive = GetIslive();
-                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(pageNumber,pageSize, dbname, isLive);
+                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(pageNumber, pageSize, dbname, isLive);
                     if (menuList != null && menuList.Count > 0)
                     {
                         return Ok(new
@@ -301,7 +303,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         #endregion
-        #region  GETDETAILSLIST ------------- BY SATISH MAURYA ------------
+        #region  -----GetRoleList ------------- BY SATISH MAURYA ------------
         [HttpGet]
         public IActionResult GetRoles()
         {
@@ -344,6 +346,94 @@ namespace PDL.Authentication.API.Controllers
             catch (Exception ex)
             {
                 ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GetRoles_MenuPermissions");
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = "" });
+            }
+        }
+        #endregion
+        #region  -----Get User DDL ------------- BY SATISH MAURYA ------------
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetUserDDL(int roleid)
+        {
+            try
+            {
+                string dbname = GetDBName();
+                string activeuser = User.FindFirstValue(ClaimTypes.Name);
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    List<GetUSerMasterVM> reslist = _menuInterface.GetUserDDL(roleid, dbname, GetIslive());
+                    if (reslist.Count > 0)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = (resourceManager.GetString("GETSUCCESS")),
+                            data = reslist
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 201,
+                            message = (resourceManager.GetString("GETFAIL")),
+                            data = reslist
+                        });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")), data = "" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GetUserDDL_MenuPermissions");
+                return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = "" });
+            }
+        }
+        #endregion
+        #region  -----Assign User Role Page ------------- BY SATISH MAURYA ------------
+        [HttpPost]
+        public IActionResult AssignUserRolePage(List<MenuPagePermission> obj)
+        {
+
+            string dbname = GetDBName();
+            string activeuser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    List<MenuPagePermission> res = _menuInterface.AssignUserRolePage(obj, dbname, GetIslive(), activeuser);
+                    if (res != null)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = (resourceManager.GetString("INSERTSUCCESS")),
+                            data = res
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 201,
+                            message = (resourceManager.GetString("INSERTFAIL")),
+                            data = res
+                        });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = (resourceManager.GetString("NULLDBNAME")), data = "" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "AssignUserRolePage_MenuPermissions");
                 return Ok(new { statuscode = 400, message = (resourceManager.GetString("BADREQUEST")), data = "" });
             }
         }
