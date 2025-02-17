@@ -87,5 +87,13 @@ namespace PDL.Authentication.Repository.Repository
                 return menuBll.AssignInsertMenus(RolePErmission, dbname, islive, activeuser);
             }
         }
+        public List<GetMenuPermissionVM> GetPermissionPageList(int RoleId, string dbname, bool islive)
+        {
+            using (MenuBLL menuBll = new MenuBLL(_configuration))
+            {
+                List<GetMenuPermissionVM> menuPermissiondata = new List<GetMenuPermissionVM>();
+                return menuPermissiondata = menuBll.GetPermissionPageList(RoleId, dbname, islive);
+            }
+        }
     }
 }

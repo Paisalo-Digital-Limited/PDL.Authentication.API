@@ -82,4 +82,10 @@ namespace PDL.Authentication.Entites.VM
         public int PageMasterId { get; set; }
         public int userid { get; set; }
     }
+    public class GetMenuPermissionVM
+    {
+        public int Id { get; set; }
+        public int RoleId { get; set; }
+        public int PageMasterId { get; set; }
+    }
 }
