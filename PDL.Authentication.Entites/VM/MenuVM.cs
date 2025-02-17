@@ -88,5 +88,6 @@ namespace PDL.Authentication.Entites.VM
         public int RoleId { get; set; }
         public int PageMasterId { get; set; }
         public string AssignStatus { get; set; }
+        public string Title { get; set; }
     }
 }

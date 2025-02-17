@@ -414,6 +414,7 @@ namespace PDL.Authentication.Logics.BLL
                                     RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
                                     PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
                                     AssignStatus = reader["AssignStatus"] != DBNull.Value ? reader["AssignStatus"].ToString() : null,
+                                    Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
                                 };
                                 menuDataList.Add(menuData);
                             }
