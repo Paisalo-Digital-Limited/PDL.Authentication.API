@@ -156,7 +156,7 @@ namespace PDL.Authentication.API.Controllers
                         sendMailVM.ToEmail = res.ToString();
                         sendMailVM.Subject = "Reset Password";
                         sendMailVM.Password = randampass;
-                        bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM);
+                        bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type);
 
                         if (sendPasswordOnMail == true)
                         {
@@ -201,16 +201,16 @@ namespace PDL.Authentication.API.Controllers
         #endregion
         #region --------- ForgotPassword By ----- Satish Maurya -------
         [HttpPost]
-        public IActionResult ForgotPassword(string EmailId, string OTP, string Password)
+        public IActionResult ForgotPassword(ForgotPassword obj)
         {
             try
             {
                 string dbname = GetDBName();
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    EmailOTPInfo va = _accountInterface.CheckEmailOTP(EmailId, OTP, "Forgot", dbname, GetIslive());
+                    EmailOTPInfo va = _accountInterface.CheckEmailOTP(obj.EmailId, obj.OTP, "Forgot", dbname, GetIslive());
                     var otp = va.OTP;
-                    var otps = OTP;
+                    var otps = obj.OTP;
                     var t = va.CreatedOn;
                     var now = DateTime.Now;
                     var fiveMinutesBeforeNow = now.AddMinutes(-5);
@@ -225,8 +225,8 @@ namespace PDL.Authentication.API.Controllers
                             }
                             else
                             {
-                                string EncriptPass = Helper.Encrypt(Password, _configuration.GetValue<string>("encryptSalts:password"));
-                                int res = _accountInterface.UpdateAccountPassword(EncriptPass, "", EmailId, dbname, GetIslive());
+                                string EncriptPass = Helper.Encrypt(obj.Password, _configuration.GetValue<string>("encryptSalts:password"));
+                                int res = _accountInterface.UpdateAccountPassword(EncriptPass, "", obj.EmailId, dbname, GetIslive());
 
                                 if (res >0)
                                 {
