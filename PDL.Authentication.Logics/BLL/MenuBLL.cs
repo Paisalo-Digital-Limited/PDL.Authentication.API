@@ -310,5 +310,85 @@ namespace PDL.Authentication.Logics.BLL
             return list;
         }
         #endregion
+        #region  -----Get User DDL ------------- BY SATISH MAURYA ------------
+        public List<GetUSerMasterVM> GetUserDDL(int roleid, string dbname, bool islive)
+        {
+            List<GetUSerMasterVM> list = new List<GetUSerMasterVM>();
+            string query = "Usp_MenuListdata";
+            try
+            {
+                using (SqlConnection con = _credManager.getConnections(dbname, islive))
+                {
+                    using (var cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "GETUSERDATA");
+                        cmd.Parameters.AddWithValue("@roleid", roleid);
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                GetUSerMasterVM userMaster = new GetUSerMasterVM
+                                {
+                                    Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+                                    Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : null,
+                                    Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : null,
+                                };
+                                list.Add(userMaster);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "GetRoles");
+                throw new Exception("Error: " + ex.Message);
+            }
+            return list;
+        }
+        #endregion
+        #region  -----Assign User Role Page ------------- BY SATISH MAURYA ------------
+        public List<MenuPagePermission> AssignInsertMenus(List<MenuPagePermission> obj, string dbname, bool islive, string activeuser)
+        {
+            try
+            {
+                string query = "Usp_MenuPagePermission";
+                using (SqlConnection con = _credManager.getConnections(dbname, islive))
+                {
+                    using (var cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Mode", SqlDbType.VarChar).Value = "updatePageMaster";
+
+                        DataTable dt = new DataTable();
+                        dt.Columns.Add("RoleId", typeof(int));
+                        dt.Columns.Add("PageMasterId", typeof(int));
+                        dt.Columns.Add("userid", typeof(int));
+
+                        foreach (MenuPagePermission item in obj)
+                        {
+                            dt.Rows.Add(item.RoleId, item.PageMasterId, item.userid);
+                        }
+
+                        cmd.Parameters.Add("@UserRolePage", SqlDbType.Structured).Value = dt;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = activeuser;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "AssignInsertMenus");
+                throw new Exception("Error: " + ex.Message);
+            }
+            return obj;
+        }
+        
+        #endregion
     }
+    
 }

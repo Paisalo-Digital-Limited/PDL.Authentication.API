@@ -69,4 +69,17 @@ namespace PDL.Authentication.Entites.VM
 
 
     }
+    public class GetUSerMasterVM
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public int Id { get; set; }
+
+    }
+    public class MenuPagePermission
+    {
+        public int RoleId { get; set; }
+        public int PageMasterId { get; set; }
+        public int userid { get; set; }
+    }
 }

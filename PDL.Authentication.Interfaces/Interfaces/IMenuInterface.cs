@@ -16,6 +16,8 @@ namespace PDL.Authentication.Interfaces.Interfaces
         dynamic UpdateMenuData(MenuVM menuVM, string dbname, bool islive, string activeuser);
         dynamic DeleteMenuData(MenuVM menuVM, string dbname, bool islive, string activeuser);
         List<GetRolesMasterVM> GetRoles(string dbname, bool islive);
+        List<GetUSerMasterVM> GetUserDDL(int roleid, string dbname, bool islive);
+        List<MenuPagePermission> AssignUserRolePage(List<MenuPagePermission> RolePErmission, string dbname, bool islive, string activeuser);
 
     }
 }
