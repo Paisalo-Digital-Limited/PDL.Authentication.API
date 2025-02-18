@@ -272,6 +272,51 @@ namespace PDL.Authentication.Logics.BLL
             }
             return aff;
         }
+        public List<MenuData> GetMenusData(string activeuser, string dbname, bool islive)
+        {
+            List<MenuData> menuDataList = new List<MenuData>();
+            string query = "Usp_MenuListdata";
+
+            try
+            {
+                using (SqlConnection con = _credManager.getConnections(dbname, islive))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "GetMenu");
+                        cmd.Parameters.AddWithValue("@id", activeuser);
+
+                        con.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                MenuData menuData = new MenuData
+                                {
+                                    mainid = reader["Mainid"] != DBNull.Value ? Convert.ToInt32(reader["Mainid"]) : 0,
+                                    ParentId = reader["ParentId"] != DBNull.Value ? Convert.ToInt32(reader["ParentId"]) : 0,
+                                    Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
+                                    PageUrl = reader["PageUrl"] != DBNull.Value ? reader["PageUrl"].ToString() : null,
+                                    Icon = reader["Icon"] != DBNull.Value ? reader["Icon"].ToString() : null,
+
+                                };
+
+                                menuDataList.Add(menuData);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, islive, "GetMenusData");
+                throw new Exception("Error: " + ex.Message);
+            }
+
+            return menuDataList;
+        }
         #endregion
         #region  GETDETAILSLIST ------------- BY SATISH MAURYA ------------
         public List<GetRolesMasterVM> GetRoles(string dbname, bool islive)
@@ -414,6 +459,7 @@ namespace PDL.Authentication.Logics.BLL
                                     RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
                                     PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
                                     AssignStatus = reader["AssignStatus"] != DBNull.Value ? reader["AssignStatus"].ToString() : null,
+                                    Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
                                 };
                                 menuDataList.Add(menuData);
                             }

@@ -26,6 +26,45 @@ namespace PDL.Authentication.API.Controllers
         }
 
         #region--- (GetMenu, InsertMenu, DeleteMenu ,Updatemenu) ---BY----------- Satish Maurya --------------- 
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetMenuData()
+        {
+            try
+            {
+
+                string dbname = GetDBName();
+                string activeuser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    bool isLive = GetIslive();
+                    List<MenuData> menuList = _menuInterface.GetMenudata(activeuser, dbname, isLive);
+                    if (menuList != null && menuList.Count > 0)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = resourceManager.GetString("GETSUCCESS"),
+                            data = menuList
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL"), data = "" });
+                    }
+                }
+                else
+                {
+                    return Ok(new { statuscode = 405, message = resourceManager.GetString("NULLDBNAME"), data = "" });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GetMenuData_MenuPermissions");
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST"), data = "" });
+            }
+        }
         [HttpPost]
         [Authorize]
         public IActionResult InsertMenuData(MenuVM menuVM)
