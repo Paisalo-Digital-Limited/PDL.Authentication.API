@@ -55,7 +55,7 @@ namespace PDL.Authentication.Logics.BLL
             }
             return aff;
         }
-        public List<GetMenuVM> GetMainMenu(int pageNumber, int pageSize, string dbname, bool islive)
+        public List<GetMenuVM> GetMainMenu(string dbname, bool islive)
         {
             List<GetMenuVM> menuDataList = new List<GetMenuVM>();
             string query = "Usp_MenuListdata";
@@ -67,8 +67,6 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Mode", "GetMainMenuData");
-                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     con.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -95,7 +93,7 @@ namespace PDL.Authentication.Logics.BLL
 
             return menuDataList;
         }
-        public List<AllSubMenuList> GetSubMenuList(int pageNumber, int pageSize, string dbname, bool islive)
+        public List<AllSubMenuList> GetSubMenuList(string dbname, bool islive)
         {
             List<AllSubMenuList> data = new List<AllSubMenuList>();
 
@@ -106,8 +104,6 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Mode", "GetAllSubMenuList");
-                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     if (con.State == ConnectionState.Closed)
                         con.Open();
 
@@ -135,7 +131,7 @@ namespace PDL.Authentication.Logics.BLL
 
             return data;
         }
-        public List<PageMenuList> GetPageMenuList(int pageNumber, int pageSize, string dbname, bool islive)
+        public List<PageMenuList> GetPageMenuList(string dbname, bool islive)
         {
             List<PageMenuList> data = new List<PageMenuList>();
 
@@ -146,8 +142,6 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Mode", "GetPageMenuList");
-                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     if (con.State == ConnectionState.Closed)
                         con.Open();
 
