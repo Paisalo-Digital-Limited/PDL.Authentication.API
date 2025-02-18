@@ -28,28 +28,28 @@ namespace PDL.Authentication.Repository.Repository
                 return menuBll.InsertMenus(menuVM, dbname, islive, activeuser);
             }
         }
-        public List<GetMenuVM> GetMainMenu(string dbname, bool islive)
+        public List<GetMenuVM> GetMainMenu(int pageNumber, int pageSize, string dbname, bool islive)
         {
             using (MenuBLL menuBll = new MenuBLL(_configuration))
             {
                 List<GetMenuVM> menudata = new List<GetMenuVM>();
-                return menudata = menuBll.GetMainMenu(dbname, islive);
+                return menudata = menuBll.GetMainMenu(pageNumber, pageSize, dbname, islive);
             }
         }
-        public List<AllSubMenuList> GetSubMenuList(string dbname, bool islive)
+        public List<AllSubMenuList> GetSubMenuList(int pageNumber, int pageSize, string dbname, bool islive)
         {
             using (MenuBLL menuBll = new MenuBLL(_configuration))
             {
                 List<AllSubMenuList> submenudata = new List<AllSubMenuList>();
-                return submenudata = menuBll.GetSubMenuList(dbname, islive);
+                return submenudata = menuBll.GetSubMenuList(pageNumber, pageSize, dbname, islive);
             }
         }
-        public List<PageMenuList> GetPageMenuList(string dbname, bool islive)
+        public List<PageMenuList> GetPageMenuList(int pageNumber, int pageSize, string dbname, bool islive)
         {
             using (MenuBLL menuBll = new MenuBLL(_configuration))
             {
                 List<PageMenuList> pagemenudata = new List<PageMenuList>();
-                return pagemenudata = menuBll.GetPageMenuList(dbname, islive);
+                return pagemenudata = menuBll.GetPageMenuList(pageNumber, pageSize, dbname, islive);
             }
         }
         public dynamic UpdateMenuData(MenuVM menuVM, string dbname, bool islive, string activeuser)
