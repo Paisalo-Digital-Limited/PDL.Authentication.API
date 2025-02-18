@@ -25,9 +25,11 @@ namespace PDL.Authentication.Entites.VM
         public string Title { get; set; }
         public string? titlename { get; set; }
         public string? PageUrl { get; set; }
+        public string? PageName { get; set; }
         public string Icon { get; set; }
         public int IsActive { get; set; }
         public int IsDeleted { get; set; }
+        public int TotalCount { get; set; }
 
 
     }
