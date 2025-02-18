@@ -82,7 +82,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetMainMenu(int pageNumber, int pageSize)
+        public IActionResult GetMainMenu()
         {
             try
             {
@@ -92,7 +92,7 @@ namespace PDL.Authentication.API.Controllers
                 if (!string.IsNullOrEmpty(dbname))
                 {
                     bool isLive = GetIslive();
-                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(pageNumber, pageSize, dbname, isLive);
+                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(dbname, isLive);
                     if (menuList != null && menuList.Count > 0)
                     {
                         return Ok(new
@@ -119,7 +119,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetSubMenuList(int pageNumber, int pageSize)
+        public IActionResult GetSubMenuList()
         {
             try
             {
@@ -127,7 +127,7 @@ namespace PDL.Authentication.API.Controllers
                 string activeuser = User.FindFirstValue(ClaimTypes.Name);
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    List<AllSubMenuList> res = _menuInterface.GetSubMenuList(pageNumber, pageSize, dbname, GetIslive());
+                    List<AllSubMenuList> res = _menuInterface.GetSubMenuList(dbname, GetIslive());
 
                     if (res.Count > 0)
                     {
@@ -160,7 +160,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetPageMenuList(int pageNumber, int pageSize)
+        public IActionResult GetPageMenuList()
         {
             try
             {
@@ -168,7 +168,7 @@ namespace PDL.Authentication.API.Controllers
                 string activeuser = User.FindFirstValue(ClaimTypes.Name);
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    List<PageMenuList> res = _menuInterface.GetPageMenuList(pageNumber, pageSize, dbname, GetIslive());
+                    List<PageMenuList> res = _menuInterface.GetPageMenuList(dbname, GetIslive());
 
                     if (res.Count > 0)
                     {
