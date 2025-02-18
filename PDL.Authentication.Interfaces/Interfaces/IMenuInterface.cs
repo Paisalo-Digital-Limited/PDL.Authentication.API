@@ -10,9 +10,9 @@ namespace PDL.Authentication.Interfaces.Interfaces
     public interface IMenuInterface
     {
         dynamic InsertMenu(MenuVM menuVM, string dbname, bool islive, string activeuser);
-        List<GetMenuVM> GetMainMenu(int pageNumber, int pageSize, string dbname, bool islive);
-        List<AllSubMenuList> GetSubMenuList(int pageNumber, int pageSize, string dbname, bool islive);
-        List<PageMenuList> GetPageMenuList(int pageNumber, int pageSize, string dbname, bool islive);
+        List<GetMenuVM> GetMainMenu(string dbname, bool islive);
+        List<AllSubMenuList> GetSubMenuList(string dbname, bool islive);
+        List<PageMenuList> GetPageMenuList(string dbname, bool islive);
         dynamic UpdateMenuData(MenuVM menuVM, string dbname, bool islive, string activeuser);
         dynamic DeleteMenuData(MenuVM menuVM, string dbname, bool islive, string activeuser);
         List<GetRolesMasterVM> GetRoles(string dbname, bool islive);
