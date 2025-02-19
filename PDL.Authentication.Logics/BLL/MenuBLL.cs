@@ -122,6 +122,7 @@ namespace PDL.Authentication.Logics.BLL
                                 Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
                                 Icon = reader["Icon"]?.ToString() ?? string.Empty,
                                 PageUrl = reader["PageUrl"] != DBNull.Value ? reader["PageUrl"].ToString() : null,
+                                ParentName = reader["ParentName"] != DBNull.Value ? reader["ParentName"].ToString() : null,
                                 IsActive = reader["IsActive"] != DBNull.Value ? Convert.ToInt32(reader["IsActive"]) : 0,
                                 IsDeleted = reader["IsDeleted"] != DBNull.Value ? Convert.ToInt32(reader["IsDeleted"]) : 0,
                             };
