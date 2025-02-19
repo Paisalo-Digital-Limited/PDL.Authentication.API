@@ -152,9 +152,9 @@ namespace PDL.Authentication.API.Controllers
                         var randampass = commonHelper.GenerateOTP();
                         SendMailVM sendMailVM = new SendMailVM();
 
-                        sendMailVM.Type = "resetpassword";
+                        sendMailVM.Type = "generateOTP";
                         sendMailVM.ToEmail = res.ToString();
-                        sendMailVM.Subject = "Reset Password";
+                        sendMailVM.Subject = "OTP For " +Type;
                         sendMailVM.Password = randampass;
                         bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type);
 
