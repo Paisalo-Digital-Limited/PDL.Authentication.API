@@ -48,6 +48,7 @@ namespace PDL.Authentication.Entites.VM
         public string Title { get; set; }
         public string Icon { get; set; }
         public string? PageUrl { get; set; }
+        public string? ParentName { get; set; }
         public int? IsActive { get; set; }
         public int? IsDeleted { get; set; }
     }
