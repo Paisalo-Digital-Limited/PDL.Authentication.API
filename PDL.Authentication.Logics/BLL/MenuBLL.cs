@@ -158,9 +158,12 @@ namespace PDL.Authentication.Logics.BLL
                         {
                             PageMenuList submenuData = new PageMenuList
                             {
-                                Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
-                                ParentId = reader["ParentId"] != DBNull.Value ? Convert.ToInt32(reader["ParentId"]) : 0,
-                                Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
+                                MenuId = reader["MenuId"] != DBNull.Value ? Convert.ToInt32(reader["MenuId"]) : 0,
+                                MenuName = reader["MenuName"] != DBNull.Value ? reader["MenuName"].ToString() : null,
+                                SubMenuId = reader["SubMenuId"] != DBNull.Value ? Convert.ToInt32(reader["SubMenuId"]) : 0,
+                                SubMenuName = reader["SubMenuName"] != DBNull.Value ? reader["SubMenuName"].ToString() : null,
+                                PageId = reader["PageId"] != DBNull.Value ? Convert.ToInt32(reader["PageId"]) : 0,
+                                PageName = reader["PageName"] != DBNull.Value ? reader["PageName"].ToString() : null,
                                 Icon = reader["Icon"]?.ToString() ?? string.Empty,
                                 PageUrl = reader["PageUrl"] != DBNull.Value ? reader["PageUrl"].ToString() : null,
                                 IsActive = reader["IsActive"] != DBNull.Value ? Convert.ToInt32(reader["IsActive"]) : 0,

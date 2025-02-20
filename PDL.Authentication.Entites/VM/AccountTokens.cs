@@ -9,6 +9,7 @@ namespace PDL.Authentication.Entites.VM
     public class AccountTokens
     {
         public Int64 Id { get; set; }
+        public Int64 CreatorID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }

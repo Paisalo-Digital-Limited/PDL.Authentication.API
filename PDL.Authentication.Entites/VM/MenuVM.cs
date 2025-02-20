@@ -54,9 +54,12 @@ namespace PDL.Authentication.Entites.VM
     }
     public class PageMenuList
     {
-        public int Id { get; set; }
-        public int? ParentId { get; set; }
-        public string Title { get; set; }
+        public int? MenuId { get; set; }
+        public string MenuName { get; set; }
+        public int SubMenuId { get; set; }
+        public string SubMenuName { get; set; }
+        public int PageId { get; set; }
+        public string PageName { get; set; }
         public string Icon { get; set; }
         public string? PageUrl { get; set; }
         public bool? IsPage { get; set; }
