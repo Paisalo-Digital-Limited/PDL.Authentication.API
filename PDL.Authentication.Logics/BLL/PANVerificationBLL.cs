@@ -7,6 +7,7 @@ using PDL.Authentication.Logics.Credentials;
 using System.Globalization;
 using Microsoft.Data.SqlClient;
 using PDL.Authentication.Security.DataSecurity;
+using System.Data;
 
 namespace PDL.Authentication.Logics.BLL
 {
@@ -107,11 +108,11 @@ namespace PDL.Authentication.Logics.BLL
 
             using (SqlConnection conn = _credManager.getConnections(dbname, islive))
             {
-                string query = "INSERT INTO PanVerificationLog (panNumber, transactionId, requestContent, responseContent, createdAt) " +
-                               "VALUES (@panNumber, @transactionId, @requestContent, @responseContent, @createdAt)";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                
+                using (SqlCommand cmd = new SqlCommand("Usp_ProteanKycLogs", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "SaveRequestResponseToDb");
                     cmd.Parameters.AddWithValue("@panNumber", panNumber);
                     cmd.Parameters.AddWithValue("@transactionId", transactionId);
                     cmd.Parameters.AddWithValue("@requestContent", requestContent);
@@ -140,19 +141,16 @@ namespace PDL.Authentication.Logics.BLL
                     }
                     if (correctedDate != DateTime.MinValue)
                     {
-
-                        string query = "INSERT INTO PanVerification (panNumber, name, fathername, dob, panStatusCode, panStatusDescription, createdAt) " +
-                                       "VALUES (@panNumber, @name, @fathername, @dob, @panStatusCode, @panStatusDescription, @createdAt)";
-
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        using (SqlCommand cmd = new SqlCommand("Usp_ProteanKycLogs", conn))
                         {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Mode", "SaveSuccessResponseToDb");
                             cmd.Parameters.AddWithValue("@panNumber", response.pan);
-                            cmd.Parameters.AddWithValue("@name", response.name);
-                            cmd.Parameters.AddWithValue("@fathername", response.fathername);
-                            cmd.Parameters.AddWithValue("@dob", correctedDate.ToString("yyyy-MM-dd"));
-                            cmd.Parameters.AddWithValue("@panStatusCode", response.panStatusCode);
-                            cmd.Parameters.AddWithValue("@panStatusDescription", response.panStatusDescription);
-                            cmd.Parameters.AddWithValue("@createdAt", response.createdAt);
+                            cmd.Parameters.AddWithValue("@Name", response.name);
+                            cmd.Parameters.AddWithValue("@FatherName", response.fathername);
+                            cmd.Parameters.AddWithValue("@DOB", correctedDate.ToString("yyyy-MM-dd"));
+                            cmd.Parameters.AddWithValue("@PanStatusCode", response.panStatusCode);
+                            cmd.Parameters.AddWithValue("@PanStatusDescription", response.panStatusDescription);
                             rowsAffected = cmd.ExecuteNonQuery();
                         }
                     }
@@ -164,16 +162,14 @@ namespace PDL.Authentication.Logics.BLL
         }
         public string FetchPanStatusData(string panStatus, string dbname, bool islive)
         {
-
             using (SqlConnection conn = _credManager.getConnections(dbname, islive))
             {
-                string query = "SELECT StatusCode, PANStatusDescription FROM [PanStatus] WHERE StatusCode = @panStatusCode";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlCommand cmd = new SqlCommand("Usp_ProteanKycLogs", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mode", "FetchPanStatusData");
                     cmd.Parameters.AddWithValue("@panStatusCode", panStatus);
-
                     conn.Open();
-
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         List<PANVerifyResponse> results = new List<PANVerifyResponse>();
@@ -182,7 +178,6 @@ namespace PDL.Authentication.Logics.BLL
                         {
                             return reader["PANStatusDescription"].ToString();
                         }
-
                         return null;
                     }
                 }
