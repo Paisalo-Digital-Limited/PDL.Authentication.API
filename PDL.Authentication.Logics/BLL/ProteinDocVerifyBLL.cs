@@ -328,21 +328,18 @@ namespace PDL.Authentication.Logics.BLL
 
                 using (SqlConnection con = _credManager.getConnections(dbname, isdblive))
                 {
-                    using (SqlCommand cmd = new SqlCommand())
+                    using (SqlCommand cmd = new SqlCommand("Usp_ProteanKycLogs",con))
                     {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = @"INSERT INTO [dbo].[ProteanApiLogs] 
-                                 ([UserId], [JsonRequest], [JsonResponse], [Doctype], [Name], [IdNumber], [IFSC])
-                                 VALUES (@UserId, @JsonRequest, @JsonResponse, @DocType, @Name, @IdNumber, @IFSC)";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Mode", "InsertProteanKycLogs");
 
-                        cmd.Parameters.Add("@UserId", SqlDbType.VarChar).Value = userid;
-                        cmd.Parameters.Add("@JsonRequest", SqlDbType.VarChar).Value = request;
-                        cmd.Parameters.Add("@JsonResponse", SqlDbType.VarChar).Value = response;
-                        cmd.Parameters.Add("@DocType", SqlDbType.VarChar).Value = docType;
-
-                        cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = finalName ?? (object)DBNull.Value; 
-                        cmd.Parameters.Add("@IdNumber", SqlDbType.VarChar).Value = finalIdNumber ?? (object)DBNull.Value;
-                        cmd.Parameters.Add("@IFSC", SqlDbType.VarChar).Value = finalIFSC ?? (object)DBNull.Value; 
+                        cmd.Parameters.AddWithValue("@UserId", userid);
+                        cmd.Parameters.AddWithValue("@JsonRequest", request);
+                        cmd.Parameters.AddWithValue("@JsonResponse", response);
+                        cmd.Parameters.AddWithValue("@DocType",  docType);
+                        cmd.Parameters.AddWithValue("@Name",  finalName); 
+                        cmd.Parameters.AddWithValue("@IdNumber",  finalIdNumber);
+                        cmd.Parameters.AddWithValue("@IFSC", finalIFSC ); 
 
                         cmd.Connection = con;
                         con.Open();
