@@ -36,10 +36,14 @@ namespace PDL.Authentication.Entites.VM
     public class GetMenuVM
     {
         public int Id { get; set; }
+        public int RoleId { get; set; }
+        public int PageMasterId { get; set; }
+        public int ParentId { get; set; }
+        public int userid { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
-        public int? IsActive { get; set; }
-        public int? IsDeleted { get; set; }
+        public string PageUrl { get; set; }
+      
     }
     public class AllSubMenuList
     {
