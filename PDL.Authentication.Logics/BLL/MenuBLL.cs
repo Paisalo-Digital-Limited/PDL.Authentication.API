@@ -55,7 +55,7 @@ namespace PDL.Authentication.Logics.BLL
             }
             return aff;
         }
-        public List<GetMenuVM> GetMainMenu(int pageNumber, int pageSize, string dbname, bool islive)
+        public List<GetMenuVM> GetMainMenu(int RoleId, string dbname, bool islive)
         {
             List<GetMenuVM> menuDataList = new List<GetMenuVM>();
             string query = "Usp_MenuListdata";
@@ -67,8 +67,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Mode", "GetMainMenuData");
-                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.Parameters.AddWithValue("@RoleId", RoleId);
                     con.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -77,10 +76,14 @@ namespace PDL.Authentication.Logics.BLL
                             var menuData = new GetMenuVM
                             {
                                 Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
-                                Title = reader["Title"]?.ToString() ?? string.Empty,
+                                RoleId = reader["RoleId"] != DBNull.Value ? Convert.ToInt32(reader["RoleId"]) : 0,
+                                PageMasterId = reader["PageMasterId"] != DBNull.Value ? Convert.ToInt32(reader["PageMasterId"]) : 0,
+                                ParentId = reader["ParentId"] != DBNull.Value ? Convert.ToInt32(reader["ParentId"]) : 0,
+                                userid = reader["userid"] != DBNull.Value ? Convert.ToInt32(reader["userid"]) : 0,
+                                Title = reader["Title"] != DBNull.Value ? reader["Title"].ToString() : null,
                                 Icon = reader["Icon"]?.ToString() ?? string.Empty,
-                                IsActive = reader["IsActive"] != DBNull.Value ? Convert.ToInt32(reader["IsActive"]) : 0,
-                                IsDeleted = reader["IsDeleted"] != DBNull.Value ? Convert.ToInt32(reader["IsDeleted"]) : 0,
+                                PageUrl = reader["PageUrl"] != DBNull.Value ? reader["PageUrl"].ToString() : null,
+                                
                             };
                             menuDataList.Add(menuData);
                         }
