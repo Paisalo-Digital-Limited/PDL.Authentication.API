@@ -149,14 +149,28 @@ namespace PDL.Authentication.API.Controllers
                     dynamic res = _accountInterface.CheckEmail(Email, dbname, GetIslive());
                     if (res != null)
                     {
-                        var randampass = commonHelper.GenerateOTP();
+                        string randampass;
+                        if (Type == "Test")
+                        {
+                            randampass = "123456"; // OTP set to "12345" for test type
+                        }
+                        else
+                        {
+                            randampass = commonHelper.GenerateOTP(); // Generate a real OTP for other types
+                        }
+                        //var randampass = commonHelper.GenerateOTP();
                         SendMailVM sendMailVM = new SendMailVM();
 
                         sendMailVM.Type = "generateOTP";
                         sendMailVM.ToEmail = res.ToString();
-                        sendMailVM.Subject = "OTP For " +Type;
+                        sendMailVM.Subject = "OTP For " + Type;
                         sendMailVM.Password = randampass;
-                        bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type);
+                        //bool sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type);
+                        bool sendPasswordOnMail = true; // By default, assume mail won't be sent
+                        if (Type != "Test")
+                        {
+                            sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type); // Only send mail if it's not "Test"
+                        }
 
                         if (sendPasswordOnMail == true)
                         {
@@ -228,9 +242,9 @@ namespace PDL.Authentication.API.Controllers
                                 string EncriptPass = Helper.Encrypt(obj.Password, _configuration.GetValue<string>("encryptSalts:password"));
                                 int res = _accountInterface.UpdateAccountPassword(EncriptPass, "", obj.EmailId, dbname, GetIslive());
 
-                                if (res >0)
+                                if (res > 0)
                                 {
-                                    return Ok(new { statuscode = 200, message = resourceManager.GetString("UPDATESUCCESS"), data="success" });
+                                    return Ok(new { statuscode = 200, message = resourceManager.GetString("UPDATESUCCESS"), data = "success" });
                                 }
                                 else
                                 {

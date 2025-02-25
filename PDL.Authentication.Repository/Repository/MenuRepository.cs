@@ -28,12 +28,12 @@ namespace PDL.Authentication.Repository.Repository
                 return menuBll.InsertMenus(menuVM, dbname, islive, activeuser);
             }
         }
-        public List<GetMenuVM> GetMainMenu(int pageNumber, int pageSize, string dbname, bool islive)
+        public List<GetMenuVM> GetMainMenu(int RoleId, string dbname, bool islive)
         {
             using (MenuBLL menuBll = new MenuBLL(_configuration))
             {
                 List<GetMenuVM> menudata = new List<GetMenuVM>();
-                return menudata = menuBll.GetMainMenu(pageNumber, pageSize, dbname, islive);
+                return menudata = menuBll.GetMainMenu(RoleId, dbname, islive);
             }
         }
         public List<AllSubMenuList> GetSubMenuList(int pageNumber, int pageSize, string dbname, bool islive)

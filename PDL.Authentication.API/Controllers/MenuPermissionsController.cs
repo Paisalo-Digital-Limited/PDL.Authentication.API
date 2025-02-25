@@ -121,7 +121,7 @@ namespace PDL.Authentication.API.Controllers
             }
         }
         [HttpGet]
-        public IActionResult GetMainMenu(int pageNumber, int pageSize)
+        public IActionResult GetMainMenu(int RoleId)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace PDL.Authentication.API.Controllers
                 if (!string.IsNullOrEmpty(dbname))
                 {
                     bool isLive = GetIslive();
-                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(pageNumber, pageSize, dbname, isLive);
+                    List<GetMenuVM> menuList = _menuInterface.GetMainMenu(RoleId, dbname, isLive);
                     if (menuList != null && menuList.Count > 0)
                     {
                         return Ok(new

@@ -19,6 +19,8 @@ namespace PDL.Authentication.API.Controllers
         {
             _configuration = configuration;
             _proteinAuthenticate = proteinAuthenticate;
+            _iDocVerify = docVerify;
+            _panVerify = panVerify;
         }
 
         #region --------- Doc verification By ----- Satish Maurya -------
@@ -206,7 +208,7 @@ namespace PDL.Authentication.API.Controllers
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "No record found!!" , result });
+                    return Ok(new { statuscode = 201, message = "No record found!!", result });
                 }
             }
             catch (Exception ex)
