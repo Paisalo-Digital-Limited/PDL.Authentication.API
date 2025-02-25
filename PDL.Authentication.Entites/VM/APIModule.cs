@@ -23,6 +23,8 @@ namespace PDL.Authentication.Entites.VM
         public string? RoleName { get; set; }
         public int? UrlId { get; set; }
         public string? Title { get; set; }
+        public int? UserId { get; set; }
+
     }
     public class APIData
     {
