@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PDL.Authentication.Entites.VM;
 using PDL.Authentication.Interfaces.Interfaces;
 using PDL.Authentication.Logics.Helper;
+using System.Data;
 using System.Security.Claims;
 
 namespace PDL.Authentication.API.Controllers
@@ -282,5 +283,59 @@ namespace PDL.Authentication.API.Controllers
         }
 
         #endregion
+        [HttpPost]
+        public IActionResult AssignRolePermission(List<APIModule> obj)
+        {
+            try
+            {
+                string dbname = GetDBName();
+
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    List<APIModule> res = _masterService.AssignRolePermission(obj, User.FindFirstValue(ClaimTypes.NameIdentifier),dbname, GetIslive());
+                    if (res.Count> 0)
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 200,
+                            message = resourceManager.GetString("INSERTSUCCESS"),
+                            data = res
+                        });
+                    }
+                    else if (res.Count == -1)
+                    {
+                        return Ok(new
+                        {
+                            StatusCode = 203,
+                            message = (resourceManager.GetString("DETAILEXISTS")),
+                            data = res
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            statuscode = 201,
+                            message = resourceManager.GetString("INSERTFAILDATA"),
+                            data = res
+                        });
+                    }
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        statuscode = 405,
+                        message = resourceManager.GetString("NULLDBNAME"),
+                        data = ""
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "AssignRolePermission_Masters");
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST"), data = "" });
+            }
+        }
     }
 }

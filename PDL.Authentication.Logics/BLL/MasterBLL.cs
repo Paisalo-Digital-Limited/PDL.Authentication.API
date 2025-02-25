@@ -218,5 +218,74 @@ namespace PDL.Authentication.Logics.BLL
         }
 
         #endregion
+        public List<APIModule> AssignRolePermission(List<APIModule> obj, string activeuser, string dbname, bool islive)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("RoleId", typeof(int));
+                dt.Columns.Add("PageMasterId", typeof(int));
+                dt.Columns.Add("IsActive", typeof(Boolean));
+                dt.Columns.Add("CreatedBy", typeof(int));
+                dt.Columns.Add("CreatedOn", typeof(DateTime));
+                dt.Columns.Add("ModifiedBy", typeof(int));
+                dt.Columns.Add("ModifiedOn", typeof(DateTime));
+                dt.Columns.Add("UserId", typeof(int));
+
+                int roleId = 0;
+
+                if (obj.Count > 0)
+                {
+                    roleId = (int)obj[0].RoleId;
+                }
+
+                foreach (APIModule item in obj)
+                {
+                    dt.Rows.Add(item.RoleId, item.ApiModuleId, item.IsActive, Convert.ToInt32(activeuser), DateTime.Now, Convert.ToInt32(activeuser), DateTime.Now);
+                }
+
+                using (SqlConnection con = _credManager.getConnections(dbname, islive))
+                {
+                    using (SqlCommand cmd = new SqlCommand("RoleAccessPermission", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Mode", SqlDbType.VarChar).Value = "updateApiRoleMapping";
+                        cmd.Parameters.Add("@roleIdToassign", SqlDbType.Int).Value = roleId;
+                        cmd.Parameters.Add("@RolePermission", SqlDbType.Structured).Value = dt;
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        con.Open();  // Open connection before executing the query
+                        adapter.Fill(dt);  // If you want to populate a DataTable with results, though not needed for your return
+                        con.Close();
+                    }
+                }
+
+                // Map DataTable back to List<APIModule>
+                List<APIModule> result = new List<APIModule>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    APIModule module = new APIModule
+                    {
+                        RoleId = Convert.ToInt32(row["RoleId"]),
+                        ApiModuleId = Convert.ToInt32(row["PageMasterId"]),
+                        IsActive = Convert.ToBoolean(row["IsActive"]),
+                        CreatedBy = Convert.ToInt32(row["CreatedBy"]),
+                        CreatedOn = Convert.ToDateTime(row["CreatedOn"]),
+                        ModifiedBy = Convert.ToInt32(row["ModifiedBy"]),
+                        ModifiedOn = Convert.ToDateTime(row["ModifiedOn"]),
+                        UserId = Convert.ToInt32(row[1])
+                    };
+                    result.Add(module);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
