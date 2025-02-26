@@ -284,7 +284,7 @@ namespace PDL.Authentication.API.Controllers
 
         #endregion
         [HttpPost]
-        public IActionResult AssignRolePermission(List<APIModule> obj)
+        public IActionResult AssignRolePermission(List<ApiModules> obj)
         {
             try
             {
@@ -292,7 +292,7 @@ namespace PDL.Authentication.API.Controllers
 
                 if (!string.IsNullOrEmpty(dbname))
                 {
-                    List<APIModule> res = _masterService.AssignRolePermission(obj, User.FindFirstValue(ClaimTypes.NameIdentifier),dbname, GetIslive());
+                    List<ApiModules> res = _masterService.AssignRolePermission(obj, User.FindFirstValue(ClaimTypes.NameIdentifier),dbname, GetIslive());
                     if (res.Count> 0)
                     {
                         return Ok(new
