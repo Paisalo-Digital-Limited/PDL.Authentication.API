@@ -22,4 +22,12 @@
     <ProjectReference Include="..\PDL.Authentication.Repository\PDL.Authentication.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Keys\pDLProductionPrivateKey.pem" />
+    <None Include="wwwroot\Keys\pDLUATPrivateKey.pem" />
+    <None Include="wwwroot\Keys\proteanProductionPublicKey.pem" />
+    <None Include="wwwroot\Keys\proteanUATPublicKey.pem" />
+    <None Include="wwwroot\Keys\signatureKey.pem" />
+  </ItemGroup>
+
 </Project>

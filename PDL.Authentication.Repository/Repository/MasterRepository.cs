@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PDL.Authentication.Repository.Repository
 {
-    public class MasterRepository :BaseBLL, IMasterService
+    public class MasterRepository : BaseBLL, IMasterService
     {
         private IConfiguration _configuration;
         public MasterRepository(IConfiguration configuration)
@@ -51,6 +51,13 @@ namespace PDL.Authentication.Repository.Repository
             using (MasterBLL masterBLL = new MasterBLL(_configuration))
             {
                 return masterBLL.GetRolePermission(dbname, islive);
+            }
+        }
+        public List<ApiModules> AssignRolePermission(List<ApiModules> obj, string activeuser, string dbname, bool islive)
+        {
+            using (MasterBLL masterBLL = new MasterBLL(_configuration))
+            {
+                return masterBLL.AssignRolePermission(obj,activeuser, dbname, islive);
             }
         }
     }

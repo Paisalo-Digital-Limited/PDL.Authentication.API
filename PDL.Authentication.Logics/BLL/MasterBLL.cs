@@ -218,5 +218,75 @@ namespace PDL.Authentication.Logics.BLL
         }
 
         #endregion
+        public List<ApiModules> AssignRolePermission(List<ApiModules> obj, string activeuser, string dbname, bool islive)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("RoleId", typeof(int));
+                dt.Columns.Add("PageMasterId", typeof(int));
+                dt.Columns.Add("IsActive", typeof(Boolean));
+                dt.Columns.Add("CreatedBy", typeof(int));
+                dt.Columns.Add("CreatedOn", typeof(DateTime));
+                dt.Columns.Add("ModifiedBy", typeof(int));
+                dt.Columns.Add("ModifiedOn", typeof(DateTime));
+                dt.Columns.Add("UserId", typeof(int));
+
+                int roleId = 0;
+
+                if (obj.Count > 0)
+                {
+                    roleId = (int)obj[0].RoleId;
+                }
+
+                foreach (ApiModules item in obj)
+                {
+                    dt.Rows.Add(item.RoleId, item.PageMasterId, item.IsActive, Convert.ToInt32(activeuser), DateTime.Now, Convert.ToInt32(activeuser), DateTime.Now, item.UserId);
+                }
+
+                using (SqlConnection con = _credManager.getConnections(dbname, islive))
+                {
+                    using (SqlCommand cmd = new SqlCommand("RoleAccessPermission", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Mode", SqlDbType.VarChar).Value = "updateApiRoleMapping";
+                        cmd.Parameters.Add("@roleIdToassign", SqlDbType.Int).Value = roleId;
+                        cmd.Parameters.Add("@RolePermission", SqlDbType.Structured).Value = dt;
+
+                        con.Open();
+
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        adapter.Fill(dt); 
+                        con.Close();
+                    }
+                }
+
+                List<ApiModules> result = new List<ApiModules>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    ApiModules module = new ApiModules
+                    {
+                        PageMasterId = Convert.ToInt32(row["PageMasterId"]),
+                        RoleId = Convert.ToInt32(row["RoleId"]),
+                        IsActive = Convert.ToBoolean(row["IsActive"]),
+                        CreatedBy = Convert.ToInt32(row["CreatedBy"]),
+                        CreatedOn = Convert.ToDateTime(row["CreatedOn"]),
+                        ModifiedBy = Convert.ToInt32(row["ModifiedBy"]),
+                        ModifiedOn = Convert.ToDateTime(row["ModifiedOn"]),
+                        UserId = Convert.ToInt32(row["UserId"])
+                    };
+                    result.Add(module);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

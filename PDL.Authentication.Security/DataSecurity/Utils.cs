@@ -6,9 +6,10 @@ namespace PDL.Authentication.Security.DataSecurity
     public class Utils
     {
 
-        public static string publicKeyPath = @"D:\\LOSDOC\\ProteanCertificates\\proteanProductionPublicKey.pem";
-        public static string pdlPrivateKeyPath = @"D:\\LOSDOC\\ProteanCertificates\\pDLProductionPrivateKey.pem";
+      
 
+        public static string publicKeyPath = @"wwwroot\\keys\\proteanProductionPublicKey.pem";
+        public static string pdlPrivateKeyPath = @"wwwroot\\keys\\pDLProductionPrivateKey.pem";
         public static string GetProteanPublicKey()
         {
             return File.ReadAllText(publicKeyPath);

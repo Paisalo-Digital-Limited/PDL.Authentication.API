@@ -23,6 +23,8 @@ namespace PDL.Authentication.Entites.VM
         public string? RoleName { get; set; }
         public int? UrlId { get; set; }
         public string? Title { get; set; }
+        public int? UserId { get; set; }
+
     }
     public class APIData
     {
@@ -35,6 +37,18 @@ namespace PDL.Authentication.Entites.VM
     {
         public int pageSize { get; set; }
         public int pageNumber { get; set; }
+
+    }
+    public class ApiModules
+    {
+        public bool? IsActive { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public int ModifiedBy { get; set; }
+        public int? UserId { get; set; }
+        public int? RoleId { get; set; }
+        public int? PageMasterId { get; set; }
 
     }
 }
