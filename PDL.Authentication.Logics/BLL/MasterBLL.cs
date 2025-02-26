@@ -218,7 +218,7 @@ namespace PDL.Authentication.Logics.BLL
         }
 
         #endregion
-        public List<APIModule> AssignRolePermission(List<APIModule> obj, string activeuser, string dbname, bool islive)
+        public List<ApiModules> AssignRolePermission(List<ApiModules> obj, string activeuser, string dbname, bool islive)
         {
             try
             {
@@ -239,9 +239,9 @@ namespace PDL.Authentication.Logics.BLL
                     roleId = (int)obj[0].RoleId;
                 }
 
-                foreach (APIModule item in obj)
+                foreach (ApiModules item in obj)
                 {
-                    dt.Rows.Add(item.RoleId, item.ApiModuleId, item.IsActive, Convert.ToInt32(activeuser), DateTime.Now, Convert.ToInt32(activeuser), DateTime.Now);
+                    dt.Rows.Add(item.RoleId, item.PageMasterId, item.IsActive, Convert.ToInt32(activeuser), DateTime.Now, Convert.ToInt32(activeuser), DateTime.Now, item.UserId);
                 }
 
                 using (SqlConnection con = _credManager.getConnections(dbname, islive))
@@ -254,27 +254,28 @@ namespace PDL.Authentication.Logics.BLL
                         cmd.Parameters.Add("@roleIdToassign", SqlDbType.Int).Value = roleId;
                         cmd.Parameters.Add("@RolePermission", SqlDbType.Structured).Value = dt;
 
+                        con.Open();
+
+
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                        con.Open();  // Open connection before executing the query
-                        adapter.Fill(dt);  // If you want to populate a DataTable with results, though not needed for your return
+                        adapter.Fill(dt); 
                         con.Close();
                     }
                 }
 
-                // Map DataTable back to List<APIModule>
-                List<APIModule> result = new List<APIModule>();
+                List<ApiModules> result = new List<ApiModules>();
                 foreach (DataRow row in dt.Rows)
                 {
-                    APIModule module = new APIModule
+                    ApiModules module = new ApiModules
                     {
+                        PageMasterId = Convert.ToInt32(row["PageMasterId"]),
                         RoleId = Convert.ToInt32(row["RoleId"]),
-                        ApiModuleId = Convert.ToInt32(row["PageMasterId"]),
                         IsActive = Convert.ToBoolean(row["IsActive"]),
                         CreatedBy = Convert.ToInt32(row["CreatedBy"]),
                         CreatedOn = Convert.ToDateTime(row["CreatedOn"]),
                         ModifiedBy = Convert.ToInt32(row["ModifiedBy"]),
                         ModifiedOn = Convert.ToDateTime(row["ModifiedOn"]),
-                        UserId = Convert.ToInt32(row[1])
+                        UserId = Convert.ToInt32(row["UserId"])
                     };
                     result.Add(module);
                 }
