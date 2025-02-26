@@ -53,7 +53,7 @@ namespace PDL.Authentication.Repository.Repository
                 return masterBLL.GetRolePermission(dbname, islive);
             }
         }
-        public List<APIModule> AssignRolePermission(List<APIModule> obj, string activeuser, string dbname, bool islive)
+        public List<ApiModules> AssignRolePermission(List<ApiModules> obj, string activeuser, string dbname, bool islive)
         {
             using (MasterBLL masterBLL = new MasterBLL(_configuration))
             {
