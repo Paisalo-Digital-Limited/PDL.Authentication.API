@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using PDL.Authentication.Entites.VM;
 
-namespace PDL.Authentication.Api.Extensions
+namespace PDL.Authentication.Api.JwtTokenExtensions
 {
     public static class AddJWTTokenServicesExtensions
     {
