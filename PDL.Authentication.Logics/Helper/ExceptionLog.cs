@@ -11,9 +11,9 @@ namespace PDL.Authentication.Logics.Helper
         {
             string connection = string.Empty;
             if (!islive)
-                connection = $"Data Source=192.168.10.2;Initial Catalog={dbname};User ID={""};Password={""};Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
+                connection = $"Data Source=192.168.10.2;Initial Catalog={dbname};User ID=sa;Password=Sasqlserver2022@10.2;Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
             else
-                connection = $"Data Source=192.168.10.2;Initial Catalog={dbname};User ID={""};Password={""};Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
+                connection = $"Data Source=192.168.10.2;Initial Catalog={dbname};User ID=sa;Password=Sasqlserver2022@10.2;Connection Timeout=120;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=false";
 
             LosCodeExceptionLogVM losCodeExceptionLog = new LosCodeExceptionLogVM();
             if (exc.InnerException != null)

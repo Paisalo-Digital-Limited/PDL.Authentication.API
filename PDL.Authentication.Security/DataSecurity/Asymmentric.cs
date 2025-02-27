@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Microsoft.AspNetCore.Hosting;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
@@ -8,12 +9,13 @@ namespace PDL.Authentication.Security.DataSecurity
 {
     public class Asymmentric
     {
-        public static string Encrypt(string text)
+        public static string Encrypt(string text, IWebHostEnvironment webHostEnvironment)
         {
             try
             {
+                string keyPath = Path.Combine(webHostEnvironment.WebRootPath, "Keys", "proteanProductionPublicKey.pem");
                 byte[] sskeyBytes = Encoding.UTF8.GetBytes(text);
-                Org.BouncyCastle.OpenSsl.PemReader pemReader = new Org.BouncyCastle.OpenSsl.PemReader(new StringReader(Utils.GetProteanPublicKey()));
+                Org.BouncyCastle.OpenSsl.PemReader pemReader = new Org.BouncyCastle.OpenSsl.PemReader(new StringReader(Utils.GetProteanPublicKey(keyPath)));
                 AsymmetricKeyParameter publicKey = (AsymmetricKeyParameter)pemReader.ReadObject();
 
                 IAsymmetricBlockCipher cipher = new OaepEncoding(new RsaEngine(), new Sha256Digest());
@@ -29,11 +31,12 @@ namespace PDL.Authentication.Security.DataSecurity
             }
         }
 
-        public static string Decrypt(string encryptedData)
+        public static string Decrypt(string encryptedData, IWebHostEnvironment webHostEnvironment)
         {
             try
             {
-                var rsaParams = LoadPrivateKeyFromPem(Utils.GetPdlPrivateKey());
+                string keyPath = Path.Combine(webHostEnvironment.WebRootPath, "Keys", "pDLProductionPrivateKey.pem");
+                var rsaParams = LoadPrivateKeyFromPem(Utils.GetPdlPrivateKey(keyPath));
 
                 var rsaEngine = new RsaEngine();
                 var oaepEncoding = new OaepEncoding(rsaEngine, new Sha256Digest());

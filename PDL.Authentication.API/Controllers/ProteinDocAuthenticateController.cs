@@ -2,8 +2,7 @@
 using Newtonsoft.Json;
 using PDL.Authentication.Entites.VM;
 using PDL.Authentication.Interfaces.Interfaces;
-using PDL.Authentication.Logics.Helper;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using PDL.Authentication.Logics.Helper; 
 
 namespace PDL.Authentication.API.Controllers
 {
