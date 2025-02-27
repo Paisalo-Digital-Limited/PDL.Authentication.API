@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,11 +17,15 @@ namespace PDL.Authentication.Logics.BLL
         string strKey = ""; byte[] bKey = null;
         private readonly IConfiguration _configuration;
         private readonly CredManager _credManager;
-        public ProteinDocVerifyBLL(IConfiguration configuration)
+        private IWebHostEnvironment _webHostEnvironment;
+
+        public ProteinDocVerifyBLL(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _credManager = new CredManager(configuration);
             strKey = Utils.RandomString(16);
             bKey = Encoding.UTF8.GetBytes(strKey);
+            _webHostEnvironment = webHostEnvironment;
+
         }
         #region    -----ProteinDocVerify -------- Satsih Maurya ---------
         public dynamic GetVerifyDetails(KycDocVM docVM, string token,string dbname, bool iscredlive, bool isdblive)

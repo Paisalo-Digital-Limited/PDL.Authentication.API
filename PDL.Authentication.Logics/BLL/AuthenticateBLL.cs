@@ -76,26 +76,6 @@ namespace PDL.Authentication.Logics.BLL
                 return null;
             }
         }
-
-        //private async Task InitializeTokenAsync()
-        //{
-        //    string islive = _configExtension.GetMyKey("isCredlive");
-        //    // Initial token retrieval and caching
-        //    var initialToken = await RequestNewAccessToken(_credManager.KycCredential(Convert.ToBoolean(islive)));
-        //    _memoryCache.Set("AccessToken", initialToken, TimeSpan.FromMinutes(60));
-
-        //    // Set up a timer to refresh the token before expiration
-        //    var timer = new Timer(async _ => await RefreshToken(), null, TimeSpan.Zero, TimeSpan.FromMinutes(55));
-        //}
-
-        //private async Task RefreshToken()
-        //{
-        //    string islive = _configExtension.GetMyKey("isCredlive");
-        //    // Refresh the token and update the cache
-        //    var refreshedToken = await RequestNewAccessToken(_credManager.KycCredential(Convert.ToBoolean(islive)));
-        //    _memoryCache.Set("AccessToken", refreshedToken, TimeSpan.FromMinutes(60));
-        //}
-
         #endregion
 
     }
