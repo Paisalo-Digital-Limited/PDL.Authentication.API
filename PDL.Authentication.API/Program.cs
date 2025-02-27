@@ -1,4 +1,4 @@
-using PDL.Authentication.Api.Extensions;
+using PDL.Authentication.Api.JwtTokenExtensions;
 using PDL.Authentication.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -73,7 +73,7 @@ namespace PDL.Authentication.Logics.BLL
 
                 content = JsonConvert.SerializeObject(objVM);
 
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey);
+                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
                 encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
 
                 apiRequestVM.requestId = Guid.NewGuid().ToString();
@@ -90,7 +90,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey, _webHostEnvironment);
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -100,7 +100,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -124,7 +124,7 @@ namespace PDL.Authentication.Logics.BLL
 
                 content = JsonConvert.SerializeObject(objVM);
 
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey);
+                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
                 encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
 
                 apiRequestVM.requestId = Guid.NewGuid().ToString();
@@ -142,7 +142,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -152,7 +152,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -176,7 +176,7 @@ namespace PDL.Authentication.Logics.BLL
 
                 content = JsonConvert.SerializeObject(objVM);
 
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey);
+                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
                 encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
 
                 apiRequestVM.requestId = Guid.NewGuid().ToString();
@@ -193,7 +193,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -203,7 +203,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -226,7 +226,7 @@ namespace PDL.Authentication.Logics.BLL
 
                 content = JsonConvert.SerializeObject(objVM);
 
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey);
+                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
                 encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
 
                 apiRequestVM.requestId = Guid.NewGuid().ToString();
@@ -243,7 +243,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -253,7 +253,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -275,7 +275,7 @@ namespace PDL.Authentication.Logics.BLL
                 objVM.ifsc = docVM.Ifsc;
                 content = JsonConvert.SerializeObject(objVM);
 
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey);
+                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
                 encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
 
                 apiRequestVM.requestId = Guid.NewGuid().ToString();
@@ -292,7 +292,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
@@ -302,7 +302,7 @@ namespace PDL.Authentication.Logics.BLL
                 {
                     ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey);
+                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);

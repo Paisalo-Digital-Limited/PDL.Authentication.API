@@ -5,16 +5,13 @@ namespace PDL.Authentication.Security.DataSecurity
 {
     public class Utils
     {
-
-      
-
-        public static string publicKeyPath = @"wwwroot\\keys\\proteanProductionPublicKey.pem";
-        public static string pdlPrivateKeyPath = @"wwwroot\\keys\\pDLProductionPrivateKey.pem";
-        public static string GetProteanPublicKey()
+        //public static string publicKeyPath = @"wwwroot\\keys\\proteanProductionPublicKey.pem";
+        //public static string pdlPrivateKeyPath = @"wwwroot\\keys\\pDLProductionPrivateKey.pem";
+        public static string GetProteanPublicKey(string publicKeyPath)
         {
             return File.ReadAllText(publicKeyPath);
         }
-        public static string GetPdlPrivateKey()
+        public static string GetPdlPrivateKey(string pdlPrivateKeyPath)
         {
             return File.ReadAllText(pdlPrivateKeyPath);
         }

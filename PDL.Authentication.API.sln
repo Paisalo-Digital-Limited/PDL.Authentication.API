@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDL.Authentication.API", "PDL.Authentication.API\PDL.Authentication.API.csproj", "{60B85000-0BC9-4ABD-AA3B-C14D6553466B}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDL.Authentication.Logics", "PDL.Authentication.Logics\PDL.Authentication.Logics.csproj", "{B68794E0-46E4-498B-92E9-8A2DF5518120}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDL.Authentication.Repository", "PDL.Authentication.Repository\PDL.Authentication.Repository.csproj", "{53F85CF2-83D6-4A6F-977F-E3505A744692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDL.Authentication.Security", "PDL.Authentication.Security\PDL.Authentication.Security.csproj", "{6421FD1B-15A9-4E50-9FDC-9A3923263FC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{53F85CF2-83D6-4A6F-977F-E3505A744692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F85CF2-83D6-4A6F-977F-E3505A744692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F85CF2-83D6-4A6F-977F-E3505A744692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6421FD1B-15A9-4E50-9FDC-9A3923263FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6421FD1B-15A9-4E50-9FDC-9A3923263FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6421FD1B-15A9-4E50-9FDC-9A3923263FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6421FD1B-15A9-4E50-9FDC-9A3923263FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
