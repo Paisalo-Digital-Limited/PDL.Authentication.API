@@ -37,12 +37,12 @@ namespace PDL.Authentication.API.Controllers
                     docVM.UserID = objVm.UserID;
                     docVM.voterno = objVm.voterno;
                     docVM.Type = "voter";
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN")});
                 }
             }
             catch (Exception ex)
@@ -67,13 +67,13 @@ namespace PDL.Authentication.API.Controllers
                     docVM.dlno = objVm.dlno;
                     docVM.dob = objVm.dob;
                     docVM.Type = "dl";
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
 
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)
@@ -97,12 +97,12 @@ namespace PDL.Authentication.API.Controllers
                     docVM.udyamRegistrationNo = objVm.udyamRegistrationNo;
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "udyam";
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)
@@ -125,12 +125,12 @@ namespace PDL.Authentication.API.Controllers
                     docVM.vehicleNumber = objVm.vehicleNumber;
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "vehicle";
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)
@@ -154,12 +154,12 @@ namespace PDL.Authentication.API.Controllers
                     docVM.Ifsc = objVm.Ifsc;
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "bank";
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)
@@ -179,12 +179,12 @@ namespace PDL.Authentication.API.Controllers
 
                 if (!string.IsNullOrEmpty(taskToken.Result))
                 {
-                    var data = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", data });
+                    var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS") ,data = res });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "Token was empty!!!" });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)
@@ -203,11 +203,11 @@ namespace PDL.Authentication.API.Controllers
 
                 if (result != null && result.Count > 0)
                 {
-                    return Ok(new { statuscode = 200, message = "Get Record Successfully!!", result });
+                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS") ,data= result });
                 }
                 else
                 {
-                    return Ok(new { statuscode = 201, message = "No record found!!", result });
+                    return Ok(new { statuscode = 201, message = resourceManager.GetString("EMTTOKEN") });
                 }
             }
             catch (Exception ex)

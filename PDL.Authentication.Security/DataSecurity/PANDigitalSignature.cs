@@ -22,8 +22,11 @@ namespace PDL.Authentication.Security.DataSecurity
         {
             try
             {
+                string keyPath = Path.Combine(_webHostEnvironment.WebRootPath, _configuration["PanDigitalSignature:Path"]);
                 // Load certificate from .pfx file
-                var certificatePath = _configuration["PanDigitalSignature:Path"];
+
+
+                var certificatePath = keyPath;
                 var certificatePassword = _configuration["PanDigitalSignature:Password"];
                 var certificate = new X509Certificate2(certificatePath, certificatePassword,
                     X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet);

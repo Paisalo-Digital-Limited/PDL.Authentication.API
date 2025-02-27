@@ -44,7 +44,7 @@ namespace PDL.Authentication.Logics.BLL
                         HelperBLL.LogException(_webHostEnvironment, JsonConvert.SerializeObject(panRequest));
                         string url = string.Empty;
                         string userId = string.Empty;
-                        if (islive)
+                        if (isCredlive)
                         {
                             url = _configuration["livePanUrl"];
                             userId = _configuration["PanSettings:liveUserId"];
@@ -117,7 +117,6 @@ namespace PDL.Authentication.Logics.BLL
                     cmd.Parameters.AddWithValue("@transactionId", transactionId);
                     cmd.Parameters.AddWithValue("@requestContent", requestContent);
                     cmd.Parameters.AddWithValue("@responseContent", responseContent);
-                    cmd.Parameters.AddWithValue("@createdAt", createdAt);
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
