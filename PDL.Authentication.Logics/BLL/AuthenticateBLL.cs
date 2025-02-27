@@ -35,7 +35,7 @@ namespace PDL.Authentication.Logics.BLL
             {
                 return accessToken;
             }
-            accessToken = await RequestNewAccessToken(_credManager.KycCredential(islive));
+            accessToken = await RequestNewAccessToken(_credManager.KycCredential(isCredlive));
 
             _memoryCache.Set("AccessToken", accessToken, TimeSpan.FromMinutes(60));
 
