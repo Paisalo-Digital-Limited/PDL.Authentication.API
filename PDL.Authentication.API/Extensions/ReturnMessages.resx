@@ -192,4 +192,7 @@
   <data name="DELETEFAIL" xml:space="preserve">
     <value>Failed To Delete Record!!</value>
   </data>
+  <data name="EMTTOKEN" xml:space="preserve">
+    <value>Token was empty!!!</value>
+  </data>
 </root>
