@@ -337,5 +337,37 @@ namespace PDL.Authentication.API.Controllers
                 return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST"), data = "" });
             }
         }
+
+        [HttpGet]
+        public IActionResult GetDataForIFSC(string ifsc)
+        {
+            try
+            {
+                Task<string> res = _masterService.GetDataForIFSC(ifsc);
+                if (res.Result != null)
+                {
+                    return Ok(new
+                    {
+                        statuscode = 200,
+                        message = resourceManager.GetString("GETSUCCESS"),
+                        data = res.Result
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        statuscode = 201,
+                        message = resourceManager.GetString("GETFAIL"),
+                        data = ""
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, GetDBName(), GetIslive(), "GetDataForIFSC_Masters");
+                return Ok(new { statuscode = 400, message = resourceManager.GetString("BADREQUEST"), data = "" });
+            }
+        }
     }
 }
