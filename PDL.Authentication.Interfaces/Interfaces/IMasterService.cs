@@ -16,6 +16,7 @@ namespace PDL.Authentication.Interfaces.Interfaces
         List<APIModule> GetPermission(PagepermissionVM pagePermission, string dbname, bool islive);
         List<APIModule> GetRolePermission(string dbname, bool islive);
         List<ApiModules> AssignRolePermission(List<ApiModules> obj, string activeuser, string dbname, bool islive);
+        Task<string> GetDataForIFSC(string ifsc);
 
     }
 }
