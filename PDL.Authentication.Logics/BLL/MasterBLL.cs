@@ -287,6 +287,24 @@ namespace PDL.Authentication.Logics.BLL
                 throw ex;
             }
         }
+        public async Task<string> GetDataForIFSC(string ifsc)
+        {
+            string res = null;
 
+            string apiUrl = _configuration.GetValue<string>("ifsc");
+
+            string apis = $"{apiUrl}/{ifsc}";
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(apis);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    res = await response.Content.ReadAsStringAsync();
+                }
+
+            }
+            return res;
+        }
     }
 }

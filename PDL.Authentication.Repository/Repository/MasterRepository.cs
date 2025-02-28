@@ -60,5 +60,12 @@ namespace PDL.Authentication.Repository.Repository
                 return masterBLL.AssignRolePermission(obj,activeuser, dbname, islive);
             }
         }
+        public Task<string> GetDataForIFSC(string ifsc)
+        {
+            using (var masterBLL = new MasterBLL(_configuration))
+            {
+                return masterBLL.GetDataForIFSC(ifsc);
+            }
+        }
     }
 }
