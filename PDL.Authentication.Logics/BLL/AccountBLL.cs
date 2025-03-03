@@ -50,6 +50,7 @@ namespace PDL.Authentication.Logics.BLL
                                 while (rdrUser.Read())
                                 {
                                     logindata.Id = rdrUser["Id"] != DBNull.Value ? Convert.ToInt64(rdrUser["Id"]) : 0;
+                                    logindata.RoleId = rdrUser["RoleId"] != DBNull.Value ? Convert.ToInt32(rdrUser["RoleId"]) : 0;
                                     logindata.CreatorID = rdrUser["CreatorID"] != DBNull.Value ? Convert.ToInt64(rdrUser["CreatorID"]) : 0;
                                     logindata.Name = rdrUser["Name"] != DBNull.Value ? rdrUser["Name"].ToString() : string.Empty;
                                     logindata.Email = rdrUser["Email"] != DBNull.Value ? rdrUser["Email"].ToString() : string.Empty;
