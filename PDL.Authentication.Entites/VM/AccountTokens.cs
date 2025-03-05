@@ -16,6 +16,7 @@ namespace PDL.Authentication.Entites.VM
         public string? Creator { get; set; }
         public string? RoleName { get; set; }
         public string? BranchCode { get; set; }
+        public string? BranchName { get; set; }
         public string? EmpCode { get; set; }
         public string? Token { get; set; }
         public TimeSpan? Validity { get; set; }
