@@ -69,6 +69,9 @@ namespace PDL.Authentication.Logics.Helper
                 AccountToken.RoleId = model.RoleId;
                 AccountToken.Creator = model.Creator;
                 AccountToken.EmpCode = model.EmpCode;
+                AccountToken.BranchCode = model.BranchCode;
+                AccountToken.RoleName = model.RoleName;
+                AccountToken.CreatorID = model.CreatorID;
 
                 return AccountToken;
             }
