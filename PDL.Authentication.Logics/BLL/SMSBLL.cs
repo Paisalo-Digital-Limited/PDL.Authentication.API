@@ -299,7 +299,7 @@ namespace PDL.Authentication.Logics.BLL
 
                 using (SqlConnection con = _credManager.getConnections(dbname, islive))
                 {
-                    string query = "Usp_VerifyOtp"; // Make sure this is the correct name
+                    string query = "Usp_VerifyOtp";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
