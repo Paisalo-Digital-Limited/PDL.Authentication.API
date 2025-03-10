@@ -99,5 +99,12 @@ namespace PDL.Authentication.Logics.Helper
             }
             return NewPassword;
         }
+        public string GenerateOTP(int length = 6)
+        {
+            Random random = new Random();
+            string otp = new string(Enumerable.Repeat("0123456789", length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            return otp;
+        }
     }
 }

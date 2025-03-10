@@ -28,7 +28,8 @@ namespace PDL.Authentication.Logics.BLL
 
         #region SEND SMS  -----------------Kartik------------------
         public async Task<int> SendSMS(SmsVM smsVM, string baseUrl, string activeuser, string dbName, bool isLive)
-        {   
+        {
+            CommonHelper commonHelper = new CommonHelper();
             int affected = 0;
             try
             {
@@ -43,7 +44,7 @@ namespace PDL.Authentication.Logics.BLL
                         sendSMSVM.Username = "paisalo.trans";
                         sendSMSVM.Password = "oDqLM";
                         sendSMSVM.From = "PAISAL";
-                        otpCode = GenerateOTP();
+                        otpCode = commonHelper.GenerateOTP(6);
                         sMSTemplate.TextMessage = sMSTemplate.TextMessage.Replace("{OTP}", otpCode);
                     }
                     if (sMSTemplate.Type.ToLower().Contains("karnatka bank"))
@@ -290,14 +291,6 @@ namespace PDL.Authentication.Logics.BLL
                 ExceptionLog.InsertLogException(ex, _configuration, dbName, isLive, "SendSMS");
                 throw new Exception("Error: " + ex.Message);
             }
-        }
-
-        public string GenerateOTP(int length = 6)
-        {
-            Random random = new Random();
-            string otp = new string(Enumerable.Repeat("0123456789", length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-            return otp;
         }
 
         public List<OTPVerificationResponse> VerifyOtp(OtpVerifyVM verifyVM, string dbname, string activeuser,  bool islive)
