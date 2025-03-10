@@ -19,6 +19,7 @@ namespace PDL.Authentication.API.Extensions
             collection.AddScoped<IDocVerify, ProteinDocVerifyRepository>();
             collection.AddScoped<IMenuInterface, MenuRepository>();
             collection.AddScoped<IMasterService, MasterRepository>();
+            collection.AddScoped<ISMSInterface, SMSRepository>();
         }
         #endregion
     }
