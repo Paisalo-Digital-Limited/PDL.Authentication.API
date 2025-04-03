@@ -169,7 +169,8 @@ namespace PDL.Authentication.API.Controllers
                         bool sendPasswordOnMail = true; // By default, assume mail won't be sent
                         if (Type != "Test")
                         {
-                            sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type); // Only send mail if it's not "Test"
+                            //sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type); // Comment for testing 
+                            sendPasswordOnMail = true;
                         }
 
                         if (sendPasswordOnMail == true)
