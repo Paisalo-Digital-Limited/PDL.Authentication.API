@@ -57,6 +57,8 @@ namespace PDL.Authentication.Logics.BLL
                                     logindata.Creator = rdrUser["Creator"] != DBNull.Value ? rdrUser["Creator"].ToString() : string.Empty;
                                     logindata.EmpCode = rdrUser["EmpCode"] != DBNull.Value ? rdrUser["EmpCode"].ToString() : string.Empty;
                                     logindata.RoleName = rdrUser["RoleName"] != DBNull.Value ? rdrUser["RoleName"].ToString() : string.Empty;
+                                    logindata.BranchCode = rdrUser["BranchCode"] != DBNull.Value ? rdrUser["BranchCode"].ToString() : string.Empty;
+                                    logindata.BranchName = rdrUser["BranchName"] != DBNull.Value ? rdrUser["BranchName"].ToString() : string.Empty;
                                 }
                                 return JwtHelpers.GenTokenkey(logindata, _jwtSettings);
                             }

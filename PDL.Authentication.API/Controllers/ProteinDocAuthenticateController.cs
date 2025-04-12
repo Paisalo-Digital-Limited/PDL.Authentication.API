@@ -38,7 +38,14 @@ namespace PDL.Authentication.API.Controllers
                     docVM.voterno = objVm.voterno;
                     docVM.Type = "voter";
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {
@@ -68,8 +75,14 @@ namespace PDL.Authentication.API.Controllers
                     docVM.dob = objVm.dob;
                     docVM.Type = "dl";
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {
@@ -98,7 +111,14 @@ namespace PDL.Authentication.API.Controllers
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "udyam";
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {
@@ -126,7 +146,14 @@ namespace PDL.Authentication.API.Controllers
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "vehicle";
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {
@@ -155,7 +182,14 @@ namespace PDL.Authentication.API.Controllers
                     docVM.UserID = objVm.UserID;
                     docVM.Type = "bank";
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {
@@ -180,7 +214,14 @@ namespace PDL.Authentication.API.Controllers
                 if (!string.IsNullOrEmpty(taskToken.Result))
                 {
                     var res = _iDocVerify.GetVerifyDetails(docVM, taskToken.Result, GetDBName(), GetIsCredlive(), GetIslive());
-                    return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS") ,data = res });
+                    if (res == null)
+                    {
+                        return Ok(new { statuscode = 201, message = resourceManager.GetString("GETFAIL") });
+                    }
+                    else
+                    {
+                        return Ok(new { statuscode = 200, message = resourceManager.GetString("GETSUCCESS"), data = res });
+                    }
                 }
                 else
                 {

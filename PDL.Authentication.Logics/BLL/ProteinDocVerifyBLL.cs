@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDL.Authentication.Entites.VM;
 using PDL.Authentication.Logics.Credentials;
+using PDL.Authentication.Logics.Helper;
 using PDL.Authentication.Security.DataSecurity;
 using System.Data;
 using System.Net;
+using System.Resources;
 using System.Text;
 
 namespace PDL.Authentication.Logics.BLL
@@ -104,6 +106,7 @@ namespace PDL.Authentication.Logics.BLL
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
+                    return data;
                 }
             }
             return null;
@@ -156,59 +159,70 @@ namespace PDL.Authentication.Logics.BLL
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
+                    return data;
                 }
             }
             return null;
         }
         private dynamic GetVoterVerification(KycDocVM docVM, Dictionary<string, string> keyValuePairs, string token, string dbname, bool isdblive)
         {
-            using (HelperBLL helperbll = new HelperBLL())
+            try
             {
-                ApiCallResponseVM apiCallResponseVM = new ApiCallResponseVM();
-                string encodedEncryptedKey = string.Empty;
-                string encryptedContent = string.Empty;
-                string content = string.Empty;
-                ApiRequestVM apiRequestVM = new ApiRequestVM();
-
-                VoterVM objVM = new VoterVM();
-                objVM.epicNo = docVM.voterno;
-
-
-                content = JsonConvert.SerializeObject(objVM);
-
-                encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
-                encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
-
-                apiRequestVM.requestId = Guid.NewGuid().ToString();
-                apiRequestVM.version = "1.0";
-                apiRequestVM.timestamp = TimesStampCreation();
-                apiRequestVM.symmetricKey = encodedEncryptedKey;
-                apiRequestVM.data = encryptedContent;
-                apiRequestVM.hash = Utils.PayloadSignatureGenerator(content, strKey);
-                var t = Task.Run(() => helperbll.PostRequestAsync(JsonConvert.SerializeObject(apiRequestVM), keyValuePairs, docVM.Type, token));
-                t.Wait();
-                apiCallResponseVM = t.Result;
-                string docType = "V";
-                if (apiCallResponseVM.StatusCode == HttpStatusCode.OK)
+                using (HelperBLL helperbll = new HelperBLL())
                 {
-                    ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
+                    ApiCallResponseVM apiCallResponseVM = new ApiCallResponseVM();
+                    string encodedEncryptedKey = string.Empty;
+                    string encryptedContent = string.Empty;
+                    string content = string.Empty;
+                    ApiRequestVM apiRequestVM = new ApiRequestVM();
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
-                    string encryptedData = response.data;
-                    string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
-                    InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
-                    return data;
-                }
-                else
-                {
-                    ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
+                    VoterVM objVM = new VoterVM();
+                    objVM.epicNo = docVM.voterno;
 
-                    string decryptedKey = Asymmentric.Decrypt(response.symmetricKey,_webHostEnvironment);;
-                    string encryptedData = response.data;
-                    string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
-                    InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
+
+                    content = JsonConvert.SerializeObject(objVM);
+
+                    encodedEncryptedKey = Asymmentric.Encrypt(strKey, _webHostEnvironment);
+                    encryptedContent = AesGcmCrypto.Encrypt(content, strKey);
+
+                    apiRequestVM.requestId = Guid.NewGuid().ToString();
+                    apiRequestVM.version = "1.0";
+                    apiRequestVM.timestamp = TimesStampCreation();
+                    apiRequestVM.symmetricKey = encodedEncryptedKey;
+                    apiRequestVM.data = encryptedContent;
+                    apiRequestVM.hash = Utils.PayloadSignatureGenerator(content, strKey);
+                    var t = Task.Run(() => helperbll.PostRequestAsync(JsonConvert.SerializeObject(apiRequestVM), keyValuePairs, docVM.Type, token));
+                    t.Wait();
+                    apiCallResponseVM = t.Result;
+                    string docType = "V";
+                    if (apiCallResponseVM.StatusCode == HttpStatusCode.OK)
+                    {
+                        ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
+
+                        string decryptedKey = Asymmentric.Decrypt(response.symmetricKey, _webHostEnvironment); ;
+                        string encryptedData = response.data;
+                        string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
+                        InsertProteanKycLogs(docVM.UserID, content, data, docType, dbname, isdblive);
+                        return data;
+                    }
+                    else
+                    {
+                        ApiRequestVM response = JsonConvert.DeserializeObject<ApiRequestVM>(apiCallResponseVM.ResponseContent);
+
+                        string decryptedKey = Asymmentric.Decrypt(response.symmetricKey, _webHostEnvironment); ;
+                        string encryptedData = response.data;
+                        string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
+                        InsertProteanKycLogs(docVM.UserID, content, data, docType, dbname, isdblive);
+                        return data;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                ExceptionLog.InsertLogException(ex, _configuration, dbname, isdblive, "GetVoterVerification_ProteinDocVerifyBLL");
+                return (new { statuscode = 400, message = "Bad Request" });
+            }
+            
             return null;
         }
         private dynamic GetVehicleVerification(KycDocVM docVM, Dictionary<string, string> keyValuePairs, string token, string dbname, bool isdblive)
@@ -257,6 +271,7 @@ namespace PDL.Authentication.Logics.BLL
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
+                    return data;
                 }
             }
             return null;
@@ -306,6 +321,7 @@ namespace PDL.Authentication.Logics.BLL
                     string encryptedData = response.data;
                     string data = AesGcmCrypto.Decrypt(encryptedData, decryptedKey);
                     InsertProteanKycLogs(docVM.UserID, content, data, docType,dbname, isdblive);
+                    return data;
                 }
             }
             return null;
