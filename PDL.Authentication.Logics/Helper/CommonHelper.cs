@@ -19,7 +19,7 @@ namespace PDL.Authentication.Logics.Helper
                 resetotp = resetotp.Replace("{newpwd}", objVM.Password);
                 MailMessage message = new MailMessage();
                 SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress("reporting.donotreply@seil.in");
+                message.From = new MailAddress("noreply@paisalo.in");
                 message.Subject = objVM.Subject;
                 message.IsBodyHtml = true;
                 string[] ToMuliId = objVM.ToEmail.Split(',');
@@ -56,7 +56,8 @@ namespace PDL.Authentication.Logics.Helper
                 smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("reporting.donotreply@seil.in", "Seil2@Report");
+               // smtp.Credentials = new NetworkCredential("reporting.donotreply@seil.in", "Seil2@Report");
+                smtp.Credentials = new NetworkCredential("noreply1@paisalo.in", "Norep@34$w&");
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
                 isSuccess = true;
@@ -64,7 +65,8 @@ namespace PDL.Authentication.Logics.Helper
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                //throw new Exception(ex.Message);
+                return false;
             }
             return isSuccess;
 
