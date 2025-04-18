@@ -172,8 +172,8 @@ namespace PDL.Authentication.API.Controllers
                             sendPasswordOnMail = commonHelper.SendMail(sendMailVM, Type); // Only send mail if it's not "Test"
                         }
 
-                        //if (sendPasswordOnMail == true)
-                        //{
+                        if (sendPasswordOnMail == true)
+                        {
                             int insert = _accountInterface.InsertEmailOTP(res, randampass, Type, dbname, GetIslive());
 
                             if (insert > 0)
@@ -189,11 +189,11 @@ namespace PDL.Authentication.API.Controllers
                             {
                                 return Ok(new { statuscode = 201, message = (resourceManager.GetString("INSERTFAIL")) });
                             }
-                        //}
-                        //else
-                        //{
-                        //    return Ok(new { statuscode = 203, message = (resourceManager.GetString("NOTSENDOTP")) });
-                        //}
+                        }
+                        else
+                        {
+                            return Ok(new { statuscode = 203, message = (resourceManager.GetString("NOTSENDOTP")) });
+                        }
                     }
                     else
                     {
